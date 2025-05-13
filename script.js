@@ -1,5 +1,7 @@
+//variables
 const octetos = document.querySelectorAll('.octeto');
 
+// Obtener el formulario y el resultado
 octetos.forEach(octeto => {
     octeto.addEventListener('input', () => {
         if (octeto.value <= 255 && octeto.value >= 0) {
@@ -10,7 +12,7 @@ octetos.forEach(octeto => {
     });
 });
 
-
+//funcion para calcular la mascara de la ip y la clase
 function ipMascaraClase(primer_octeto) {
     if (primer_octeto >= 0 && primer_octeto <= 127) {
         document.getElementById("ip_clase").innerText = "Clase A";
@@ -65,6 +67,8 @@ document.getElementById("formulario").addEventListener('submit', function(event)
         }
     }
 
+    // comprobacion para 
+    // mostrar el resultado
     if (!octetoNoValido) {
         mostrarResultado()
     }
