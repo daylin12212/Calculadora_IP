@@ -7,24 +7,22 @@
     <title>Calculadora IP</title>
 </head>
 <body>
-    <h1>Calculadora IP</h1>
-    
-    <form action="/procesar-datos" method="POST">
+    <h1>Calculadora IP</h1>  
+    <form action="/procesar-datos" method="POST" id="formulario">
         <label for="primer_octeto">Primer octeto:</label>
         <input type="number" class="octeto" name="primer_octeto" required>
-        <br><br>
 
         <label for="segundo_octeto">Segundo octeto:</label>
         <input type="number" class="octeto" name="segundo_octeto" required>
-        <br><br>
+
 
         <label for="tercer_octeto">Tercer octeto:</label>
         <input type="number" class="octeto" name="tercer_octeto" required>
-        <br><br>
+
 
         <label for="cuarto_octeto">Cuarto octeto:</label>
         <input type="number" class="octeto" name="cuarto_octeto" required>
-        <br><br>
+
 
         <button id="calcular" class="boton">Calcular</button>
     </form>
