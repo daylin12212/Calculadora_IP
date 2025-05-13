@@ -1,23 +1,16 @@
 const octetos = document.querySelectorAll('.octeto');
 
-
 octetos.forEach(octeto => {
     octeto.addEventListener('input', () => {
-        const valor = parseInt(octeto.value);
-
-        if (valor <= 255 && valor >= 0) {
-            octeto.style.color = "green"; // Dentro del rango
+        if (octeto.value <= 255 && octeto.value >= 0) {
+            octeto.style.color = "green"; 
         } else {
-            octeto.style.color = "red"; // Fuera del rango
+            octeto.style.color = "red"; 
         }
     });
 });
 
 
-document.getElementById("calcular").addEventListener('click', () => {
-    
-
-});
 
 
 
