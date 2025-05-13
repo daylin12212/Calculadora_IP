@@ -15,8 +15,10 @@ function almacenarDatos() {
     let segundo_octeto = document.getElementById("segundo_octeto").value
     let tercer_octeto = document.getElementById("tercer_octeto").value
     let cuarto_octeto = document.getElementById("cuarto_octeto").value
-    let ip_completa = document("ip_completa").value = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + "." + cuarto_octeto
+    const ip_completa = document.getElementById("ip_completa").innerText = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + "." + cuarto_octeto
 }
+
+
 
 function mostrarResultado() {
     formulario.style.display = "none"
