@@ -5,9 +5,12 @@ octetos.forEach(octeto => {
         const valor = parseInt(octeto.value);
 
         if (valor <= 255 && valor >= 0) {
-            octeto.style.backgroundColor = "green"; // Dentro del rango
+            octeto.style.color = "green"; // Dentro del rango
         } else {
-            octeto.style.backgroundColor = "red"; // Fuera del rango
+            octeto.style.color = "red"; // Fuera del rango
         }
     });
 });
+
+
+
