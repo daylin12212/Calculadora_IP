@@ -1,3 +1,4 @@
+//variables
 const octetos = document.querySelectorAll('.octeto');
 
 //Muestra en verde los números en el rango indicado y muestra en rojo los que están fuera de rango
@@ -71,6 +72,8 @@ document.getElementById("formulario").addEventListener('submit', function(event)
         }
     }
 
+    // comprobacion para 
+    // mostrar el resultado
     if (!octetoNoValido) {
         mostrarResultado()
     }
