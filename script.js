@@ -17,8 +17,6 @@ function mostrarResultado() {
     resultado.style.right = "0px"
 }
 
-function
-
 document.getElementById("formulario").addEventListener('submit', function(event) {
     event.preventDefault();
     let octetoNoValido = false; 
