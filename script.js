@@ -30,6 +30,14 @@ function ipMascaraClase(primer_octeto) {
     }
 }
 
+//comprobaciones para el valor de la red
+function tipoRed(primer_octeto) {
+    if (primer_octeto === 10 || primer_octeto === 192 || primer_octeto === 172) {
+        document.getElementById("tipo_red").innerText = "Red privada";
+    } else {
+        document.getElementById("tipo_red").innerText = "Red pública";
+    }
+}
 // Obtener los elementos del formulario y el resultado
 function mostrarResultado() {
     const primer_octeto = document.getElementById("primer_octeto").value
@@ -39,6 +47,7 @@ function mostrarResultado() {
     formulario.style.display = "none"
     resultado.style.display = "block"
     ipMascaraClase(primer_octeto);
+    tipoRed(primer_octeto);
     document.getElementById("ip_completa").innerText = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + "." + cuarto_octeto;
 
 }
