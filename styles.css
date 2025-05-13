@@ -79,17 +79,8 @@ th, td {
     border-radius: 5px;
 }
 
-th {
+th, td, #resultado table tr{
     background-color: #f1f1f1; 
-    font-weight: bold; 
-}
-
-td {
-    background-color: #fafafa; 
-}
-
-#resultado table tr {
-    background-color: #ffffff; 
 }
 
 #resultado table tr:nth-child(even) {
