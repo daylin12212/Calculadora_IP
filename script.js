@@ -72,8 +72,7 @@ document.getElementById("formulario").addEventListener('submit', function(event)
         }
     }
 
-    // comprobacion para 
-    // mostrar el resultado
+    // comprobacion para mostrar el resultado
     if (!octetoNoValido) {
         mostrarResultado()
     }
