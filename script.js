@@ -32,7 +32,7 @@ function ipMascaraClase(primer_octeto) {
 
 //comprobaciones para el valor de la red
 function tipoRed(primer_octeto) {
-    if (primer_octeto === 10 || primer_octeto === 192 || primer_octeto === 172) {
+    if (primer_octeto == 10 || primer_octeto == 192 || primer_octeto == 172) {
         document.getElementById("tipo_red").innerText = "Red privada";
     } else {
         document.getElementById("tipo_red").innerText = "Red pública";
