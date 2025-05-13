@@ -37,7 +37,7 @@ function ipMascaraClase(primer_octeto) {
     }
 }
 
-//comprobaciones para el valor de la red
+//Función que asigna el valor al tipo de red
 function tipoRed(primer_octeto) {
     if (primer_octeto == 10 || primer_octeto == 192 || primer_octeto == 172) {
         document.getElementById("tipo_red").innerText = "Red privada";
@@ -45,7 +45,7 @@ function tipoRed(primer_octeto) {
         document.getElementById("tipo_red").innerText = "Red pública";
     }
 }
-// Obtener los elementos del formulario y el resultado
+// Obtener los elementos del formulario y muestra el resultado
 function mostrarResultado() {
     const primer_octeto = document.getElementById("primer_octeto").value
     const segundo_octeto = document.getElementById("segundo_octeto").value
@@ -59,7 +59,7 @@ function mostrarResultado() {
 
 }
 
-// Función para mostrar el resultado
+//Validación de que la IP introducida sea válida
 document.getElementById("formulario").addEventListener('submit', function(event) {
     event.preventDefault();
     let octetoNoValido = false; 
@@ -72,7 +72,6 @@ document.getElementById("formulario").addEventListener('submit', function(event)
         }
     }
 
-    // comprobacion para mostrar el resultado
     if (!octetoNoValido) {
         mostrarResultado()
     }
