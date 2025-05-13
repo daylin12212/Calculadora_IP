@@ -15,10 +15,24 @@ function almacenarDatos() {
     let segundo_octeto = document.getElementById("segundo_octeto").value
     let tercer_octeto = document.getElementById("tercer_octeto").value
     let cuarto_octeto = document.getElementById("cuarto_octeto").value
-    const ip_completa = document.getElementById("ip_completa").innerText = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + "." + cuarto_octeto
+    //const ip_completa = document.getElementById("ip_completa").innerText = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + "." + cuarto_octeto
 }
 
-
+function ipClase() {
+    almacenarDatos()
+    if (primer_octeto >= 0 && primer_octeto <= 127){
+        document.getElementById("ip_clase").innerText = "Clase A"
+    }
+    if (primer_octeto >= 128 && primer_octeto <= 191){
+        document.getElementById("ip_clase").innerText = "Clase A"
+    }
+    if (primer_octeto >= 192 && primer_octeto <= 223){
+        document.getElementById("ip_clase").innerText = "Clase A"
+    }
+    if (primer_octeto >= 0 && primer_octeto <= 127){
+        document.getElementById("ip_clase").innerText = "Clase A"
+    }
+}
 
 function mostrarResultado() {
     formulario.style.display = "none"
