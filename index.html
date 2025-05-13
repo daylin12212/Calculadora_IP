@@ -3,45 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <title>Calculadora IP</title>
 </head>
 <body>
     <h1>Calculadora IP</h1>
-    <table id="table1">
-        <tr>
-            <th class="th_text">Primer octeto:</th>
-            <td>
-                <input type="number" id="nombre">
-            </td>
-        </tr>
-        <tr>
-            <th class="th_text">Segundo octeto:</th>
-            <td>
-                <input type="number" id="nombre">
-            </td>
-        </tr>
-        <tr>
-            <th class="th_text">Tercer octeto:</th>
-            <td>
-                <input type="number" id="nombre">
-            </td>
-        </tr>
-        <tr>
-            <th class="th_text">Cuarto octeto:</th>
-            <td>
-            <input type="number" id="nombre">
-           </td>
-        </tr>
-        <tr>
-            <th colspan="2">
-                <button id="insertar">Calcular</button>
-            </th>
-        </tr>
+    
+    <form action="/procesar-datos" method="POST">
+        <label for="primer_octeto">Primer octeto:</label>
+        <input type="number" class="octeto" name="primer_octeto" required>
+        <br><br>
 
+        <label for="segundo_octeto">Segundo octeto:</label>
+        <input type="number" class="octeto" name="segundo_octeto" required>
+        <br><br>
 
+        <label for="tercer_octeto">Tercer octeto:</label>
+        <input type="number" class="octeto" name="tercer_octeto" required>
+        <br><br>
 
+        <label for="cuarto_octeto">Cuarto octeto:</label>
+        <input type="number" class="octeto" name="cuarto_octeto" required>
+        <br><br>
 
-
-    </table>
+        <button id="calcular" class="boton">Calcular</button>
+    </form>
 </body>
 </html>
