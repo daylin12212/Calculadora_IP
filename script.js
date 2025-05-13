@@ -22,7 +22,7 @@ document.getElementById("formulario").addEventListener('submit', function(event)
     });
 
     if (!octetoNoValido) {
-        formulario.style.display = "none"
+        formulario.style.display = "left"
     }
 
 });
