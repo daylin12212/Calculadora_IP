@@ -12,6 +12,18 @@ octetos.forEach(octeto => {
 
 document.getElementById("formulario").addEventListener('submit', function(event) {
     event.preventDefault();
+    let octetoNoValido = false; 
+
+    octetos.forEach(octeto => {
+        if (octeto.style.color === "red") {
+            octetoNoValido = true;
+            alert("¡Hay un campo con valor inválido!");
+        }
+    });
+
+    if (!octetoNoValido) {
+        formulario.style.display = "none"
+    }
 
 });
 
