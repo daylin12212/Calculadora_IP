@@ -14,13 +14,13 @@ octetos.forEach(octeto => {
 function ipMascaraClase(primer_octeto) {
     if (primer_octeto >= 0 && primer_octeto <= 127) {
         document.getElementById("ip_clase").innerText = "Clase A";
-        document.getElementById("ip_mascara").innerText = "225.0.0.0";
+        document.getElementById("ip_mascara").innerText = "255.0.0.0";
     } if (primer_octeto >= 128 && primer_octeto <= 191) {
         document.getElementById("ip_clase").innerText = "Clase B";
-        document.getElementById("ip_mascara").innerText = "225.225.0.0";
+        document.getElementById("ip_mascara").innerText = "255.255.0.0";
     } if (primer_octeto >= 192 && primer_octeto <= 223) {
         document.getElementById("ip_clase").innerText = "Clase C";
-        document.getElementById("ip_mascara").innerText = "225.225.225.0";
+        document.getElementById("ip_mascara").innerText = "255.255.255.0";
     } if (primer_octeto >= 224 && primer_octeto <= 239) {
         document.getElementById("ip_clase").innerText = "Clase D";
         document.getElementById("ip_mascara").innerText = "No tiene mascara";
