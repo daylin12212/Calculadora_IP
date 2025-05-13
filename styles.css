@@ -19,7 +19,7 @@ h1 {
     margin-top: 0; 
 }
 
-form {
+#formulario, #resultado{
     background-color: #ffffff; 
     padding: 20px;
     border-radius: 10px; 
@@ -27,17 +27,17 @@ form {
     width: 280px;
 }
 
-label {
+label, th {
     font-size: 14px;
     margin-bottom: 6px;
     display: block;
     color: #495057;
 }
 
-input.octeto {
+input.octeto, td {
     width: 70%;
     padding: 12px;
-    margin-bottom: 20px; 
+    margin: 20px; 
     border: 2px solid #ced4da;
     border-radius: 8px; 
     font-size: 16px;

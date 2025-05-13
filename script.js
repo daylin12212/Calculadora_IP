@@ -1,5 +1,6 @@
 const octetos = document.querySelectorAll('.octeto');
 
+//Muestra en verde los números en el rango indicado y muestra en rojo los que están fuera de rango
 octetos.forEach(octeto => {
     octeto.addEventListener('input', () => {
         if (octeto.value <= 255 && octeto.value >= 0) {
@@ -10,7 +11,12 @@ octetos.forEach(octeto => {
     });
 });
 
+//Botón que vuelve al menú principal
+document.getElementById("menu_principal").addEventListener("click", function() {
+    window.location.href = "index.html";
+});
 
+//Función que asigna el valor a la clase y la máscara 
 function ipMascaraClase(primer_octeto) {
     if (primer_octeto >= 0 && primer_octeto <= 127) {
         document.getElementById("ip_clase").innerText = "Clase A";
