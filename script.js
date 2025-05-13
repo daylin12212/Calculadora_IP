@@ -10,21 +10,30 @@ octetos.forEach(octeto => {
     });
 });
 
+function mostrarResultado() {
+    formulario.style.position = "relative"
+    formulario.style.left ="0px"
+    resultado.style.position = "relative"
+    resultado.style.right = "0px"
+}
+
+function
+
 document.getElementById("formulario").addEventListener('submit', function(event) {
     event.preventDefault();
     let octetoNoValido = false; 
 
-    octetos.forEach(octeto => {
-        if (octeto.style.color === "red") {
+    for (let i = 0; i < octetos.length; i++) {
+        if (octetos[i].style.color === "red") {
             octetoNoValido = true;
             alert("¡Hay un campo con valor inválido!");
+            break; 
         }
-    });
-
-    if (!octetoNoValido) {
-        formulario.style.display = "left"
     }
 
+    if (!octetoNoValido) {
+        mostrarResultado()
+    }
 });
 
 
