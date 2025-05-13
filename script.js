@@ -19,6 +19,23 @@ function almacenarDatos() {
     let cuarto_octeto = document.getElementById("cuarto_octeto").value
     let ip_completa = document("ip_completa").value = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + "." + cuarto_octeto
     let mascara = document.getElementById("ip_mascara").value;
+    //const ip_completa = document.getElementById("ip_completa").innerText = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + "." + cuarto_octeto
+}
+
+function ipClase() {
+    almacenarDatos()
+    if (primer_octeto >= 0 && primer_octeto <= 127){
+        document.getElementById("ip_clase").innerText = "Clase A"
+    }
+    if (primer_octeto >= 128 && primer_octeto <= 191){
+        document.getElementById("ip_clase").innerText = "Clase A"
+    }
+    if (primer_octeto >= 192 && primer_octeto <= 223){
+        document.getElementById("ip_clase").innerText = "Clase A"
+    }
+    if (primer_octeto >= 0 && primer_octeto <= 127){
+        document.getElementById("ip_clase").innerText = "Clase A"
+    }
 }
 
 // Obtener los elementos del formulario y el resultado
