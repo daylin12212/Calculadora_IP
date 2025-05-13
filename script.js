@@ -10,11 +10,19 @@ octetos.forEach(octeto => {
     });
 });
 
+function almacenarDatos() {
+    let primer_octeto = document.getElementById("primer_octeto").value
+    let segundo_octeto = document.getElementById("segundo_octeto").value
+    let tercer_octeto = document.getElementById("tercer_octeto").value
+    let cuarto_octeto = document.getElementById("cuarto_octeto").value
+    let ip_completa = document("ip_completa").value = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + "." + cuarto_octeto
+}
+
 function mostrarResultado() {
-    formulario.style.position = "relative"
-    formulario.style.left ="0px"
-    resultado.style.position = "relative"
-    resultado.style.right = "0px"
+    formulario.style.display = "none"
+    resultado.style.display = "block"
+    almacenarDatos();
+
 }
 
 document.getElementById("formulario").addEventListener('submit', function(event) {

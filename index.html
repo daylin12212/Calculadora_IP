@@ -10,20 +10,25 @@
     <h1>Calculadora IP</h1>  
     <form method="POST" id="formulario">
         <label for="primer_octeto">Primer octeto:</label>
-        <input type="number" class="octeto" name="primer_octeto" required>
+        <input type="number" class="octeto" id="primer_octeto" required>
 
         <label for="segundo_octeto">Segundo octeto:</label>
-        <input type="number" class="octeto" name="segundo_octeto" required>
+        <input type="number" class="octeto" id="segundo_octeto" required>
 
         <label for="tercer_octeto">Tercer octeto:</label>
-        <input type="number" class="octeto" name="tercer_octeto" required>
+        <input type="number" class="octeto" id="tercer_octeto" required>
 
         <label for="cuarto_octeto">Cuarto octeto:</label>
-        <input type="number" class="octeto" name="cuarto_octeto" required>
+        <input type="number" class="octeto" id="cuarto_octeto" required>
 
         <button id="calcular" class="boton">Calcular</button>
     </form>
-    <div id="resultado"></div>
+    <div id="resultado">
+        <div id="ip_completa"></div>
+        <div id="ip_clase"></div>
+        <div id="ip_mascara"></div>
+        <div id="tipo_red"></div>
+    </div>
 
     <script src="script.js"></script>
 </body>
