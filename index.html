@@ -23,12 +23,27 @@
 
         <button id="calcular" class="boton">Calcular</button>
     </form>
-    <div id="resultado">
-        <div id="ip_completa"></div>
-        <div id="ip_clase"></div>
-        <div id="ip_mascara"></div>
-        <div id="tipo_red"></div>
+    <div id="resultado" style="display: none;">
+        <table>
+            <tr>
+                <th>Ip: </th>
+                <td id="ip_completa"></td>
+            </tr>
+            <tr>
+                <th>Clase: </th>
+                <td id="ip_clase"></td>
+            </tr>
+            <tr>
+                <th>Mascara: </th>
+                <td id="ip_mascara"></td>
+            </tr>
+            <tr>
+                <th>Tipo de red: </th>
+                <td id="tipo_red"></td>
+            </tr>
+        </table>
     </div>
+   
 
     <script src="script.js"></script>
 </body>
