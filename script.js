@@ -1,5 +1,6 @@
 const octetos = document.querySelectorAll('.octeto');
 
+
 octetos.forEach(octeto => {
     octeto.addEventListener('input', () => {
         const valor = parseInt(octeto.value);
@@ -10,6 +11,12 @@ octetos.forEach(octeto => {
             octeto.style.color = "red"; // Fuera del rango
         }
     });
+});
+
+
+document.getElementById("calcular").addEventListener('click', () => {
+    
+
 });
 
 
