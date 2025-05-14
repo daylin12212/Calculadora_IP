@@ -9,17 +9,8 @@
     <body>
         <h1>Calculadora IP</h1>  
         <form method="POST" id="formulario">
-            <label for="primer_octeto">Primer octeto:</label>
-            <input type="number" class="octeto" id="primer_octeto" required>
-
-            <label for="segundo_octeto">Segundo octeto:</label>
-            <input type="number" class="octeto" id="segundo_octeto" required>
-
-            <label for="tercer_octeto">Tercer octeto:</label>
-            <input type="number" class="octeto" id="tercer_octeto" required>
-
-            <label for="cuarto_octeto">Cuarto octeto:</label>
-            <input type="number" class="octeto" id="cuarto_octeto" required>
+            <label for="primer_octeto">Introduzca la IP:</label>
+            <input type="text" id="IP" maxlength="15" required>
 
             <button id="calcular" class="boton">Calcular</button>
         </form>

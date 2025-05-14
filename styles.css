@@ -34,7 +34,7 @@ label{
     color: #495057;
 }
 
-input.octeto {
+input#IP {
     width: 70%;
     padding: 12px;
     margin: 20px; 
@@ -44,7 +44,7 @@ input.octeto {
     background-color: #f8f9fa; 
 }
 
-input.octeto:focus {
+input#IP:focus {
     border-color: #007bff; 
     outline: none;
 }

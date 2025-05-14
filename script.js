@@ -2,15 +2,15 @@
 const octetos = document.querySelectorAll('.octeto');
 
 //Muestra en verde los números en el rango indicado y muestra en rojo los que están fuera de rango
-octetos.forEach(octeto => {
-    octeto.addEventListener('input', () => {
+
+    document.getElementById("IP").addEventListener('input', () => {
         if (octeto.value <= 255 && octeto.value >= 0) {
             octeto.style.color = "green"; 
         } else {
             octeto.style.color = "red"; 
         }
     });
-});
+
 
 //Botón que vuelve al menú principal
 document.getElementById("menu_principal").addEventListener("click", function() {
