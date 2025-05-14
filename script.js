@@ -11,7 +11,6 @@ function formatoIP(ip) {
         ip.style.color = "red";
     }
 }
-
 //Muestra en verde los números en el rango indicado y muestra en rojo los que están fuera de rango
     document.getElementById("IP").addEventListener('input', () => {
         if (IP.value <= 255 && IP.value >= 0) {
