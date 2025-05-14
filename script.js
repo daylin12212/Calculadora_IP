@@ -143,7 +143,7 @@ function mostrarResultado() {
         document.getElementById("mascara_subred").innerText = mascara;
    
 
-     // Máscara en binario (solo texto normal, sin colores)
+     // Máscara en binario 
     let mascaraBinHtml = "-";
     if (mascara !== 'No tiene') {
         const mascaraArr = mascara.split('.');
