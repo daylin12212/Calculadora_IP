@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -16,26 +16,42 @@
             <button id="calcular" class="boton">Calcular</button>
         </form>
         <div id="resultado" style="display: none;">
+            <button id="toggle_binario" class="boton" type="button">Ver en binario</button>
             <table>
                 <tr>
                     <th>Ip: </th>
-                    <td id="ip_completa"></td>
+                    <td>
+                        <span id="ip_completa"></span>
+                        <span id="ip_binario" style="display:none;"></span>
+                    </td>
                 </tr>
                 <tr>
                     <th>Mascara de subred: </th>
-                    <td id="mascara_subred"></td>
+                    <td>
+                        <span id="mascara_subred"></span>
+                        <span id="mascara_supred_binario" style="display:none;"></span>
+                    </td>
                 </tr>
                 <tr>
                     <th>Wildcard: </th>
-                    <td id="Wildcard"></td>
+                    <td>
+                        <span id="Wildcard"></span>
+                        <span id="Wildcard_binario" style="display:none;"></span>
+                    </td>
                 </tr>
                 <tr>
                     <th>Dirección de red: </th>
-                    <td id="direccion_red"></td>
+                    <td>
+                        <span id="direccion_red"></span>
+                        <span id="direccion_red_binario" style="display:none;"></span>
+                    </td>
                 </tr>
                 <tr>
                     <th>Dirección de broadcast: </th>
-                    <td id="direccion_broadcast"></td>
+                    <td>
+                        <span id="direccion_broadcast"></span>
+                        <span id="direccion_broadcast_binario" style="display:none;"></span>
+                    </td>
                 </tr>
                 <tr>
                     <th>Número de hosts: </th>

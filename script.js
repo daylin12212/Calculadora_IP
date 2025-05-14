@@ -113,32 +113,98 @@ function mostrarResultado() {
     const ipArr = ip.split('.').map(Number);
     const { clase, mascara } = obtenerClaseMascara(ipArr[0]);
 
-    // Dirección IP
-    document.getElementById("ip_completa").innerText = ip;
+    // Dirección IP con colores y negrita según clase
+    let ipHtml = "";
+    if (clase === 'A') {
+        ipHtml = `<span class="clase-azul">${ipArr[0]}</span><span class="clase-naranja">.${ipArr[1]}.${ipArr[2]}.${ipArr[3]}</span>`;
+    } else if (clase === 'B') {
+        ipHtml = `<span class="clase-azul">${ipArr[0]}.${ipArr[1]}</span><span class="clase-naranja">.${ipArr[2]}.${ipArr[3]}</span>`;
+    } else if (clase === 'C') {
+        ipHtml = `<span class="clase-azul">${ipArr[0]}.${ipArr[1]}.${ipArr[2]}</span><span class="clase-naranja">.${ipArr[3]}</span>`;
+    } else {
+        ipHtml = ipArr.join('.');
+    }
+    document.getElementById("ip_completa").innerHTML = ipHtml;
+
+
+    // Dirección IP en binario con colores y negrita según clase
+    let ipBinHtml = "";
+    const ipBinArr = ipArr.map(toBin);
+    if (clase === 'A') {
+        ipBinHtml = `<span class="clase-azul">${ipBinArr[0]}</span><span class="clase-naranja">.${ipBinArr[1]}.${ipBinArr[2]}.${ipBinArr[3]}</span>`;
+    } else if (clase === 'B') {
+        ipBinHtml = `<span class="clase-azul">${ipBinArr[0]}.${ipBinArr[1]}</span><span class="clase-naranja">.${ipBinArr[2]}.${ipBinArr[3]}</span>`;
+    } else if (clase === 'C') {
+        ipBinHtml = `<span class="clase-azul">${ipBinArr[0]}.${ipBinArr[1]}.${ipBinArr[2]}</span><span class="clase-naranja">.${ipBinArr[3]}</span>`;
+    } else {
+        ipBinHtml = ipBinArr.join('.');
+    }
+    if (document.getElementById("ip_binario"))
+        document.getElementById("ip_binario").innerHTML = ipBinHtml;
+
 
     // Máscara de subred
     if (document.getElementById("mascara_subred"))
         document.getElementById("mascara_subred").innerText = mascara;
+   
+
+     // Máscara en binario (solo texto normal, sin colores)
+    let mascaraBinHtml = "-";
+    if (mascara !== 'No tiene') {
+        const mascaraArr = mascara.split('.');
+        const mascaraBinArr = mascaraArr.map(toBin);
+        mascaraBinHtml = mascaraBinArr.join('.');
+    }
+    if (document.getElementById("mascara_supred_binario"))
+        document.getElementById("mascara_supred_binario").innerText = mascaraBinHtml;
+
+
 
     // Wildcard
+    let wildcard = '-';
+    if (mascara !== 'No tiene') wildcard = calcularWildcard(mascara);
     if (document.getElementById("Wildcard"))
-        document.getElementById("Wildcard").innerText = mascara !== 'No tiene' ? calcularWildcard(mascara) : '-';
+        document.getElementById("Wildcard").innerText = wildcard;
+    // Wildcard en binario si existe el campo
+    if (document.getElementById("Wildcard_binario") && wildcard !== '-')
+        document.getElementById("Wildcard_binario").innerText = wildcard.split('.').map(toBin).join('.');
+    else if (document.getElementById("Wildcard_binario"))
+        document.getElementById("Wildcard_binario").innerText = '-';
 
     // Dirección de red
+    let red = '-';
+    if (mascara !== 'No tiene') red = calcularRed(ip, mascara);
     if (document.getElementById("direccion_red"))
-        document.getElementById("direccion_red").innerText = mascara !== 'No tiene' ? calcularRed(ip, mascara) : '-';
+        document.getElementById("direccion_red").innerText = red;
+    // Dirección de red en binario si existe el campo
+    if (document.getElementById("direccion_red_binario") && red !== '-')
+        document.getElementById("direccion_red_binario").innerText = red.split('.').map(toBin).join('.');
+    else if (document.getElementById("direccion_red_binario"))
+        document.getElementById("direccion_red_binario").innerText = '-';
 
     // Dirección de broadcast
+    let broadcast = '-';
+    if (mascara !== 'No tiene') broadcast = calcularBroadcast(ip, mascara);
     if (document.getElementById("direccion_broadcast"))
-        document.getElementById("direccion_broadcast").innerText = mascara !== 'No tiene' ? calcularBroadcast(ip, mascara) : '-';
+        document.getElementById("direccion_broadcast").innerText = broadcast;
+    // Dirección de broadcast en binario si existe el campo
+    if (document.getElementById("direccion_broadcast_binario") && broadcast !== '-')
+        document.getElementById("direccion_broadcast_binario").innerText = broadcast.split('.').map(toBin).join('.');
+    else if (document.getElementById("direccion_broadcast_binario"))
+        document.getElementById("direccion_broadcast_binario").innerText = '-';
 
     // Número de hosts
     if (document.getElementById("numero_hosts"))
         document.getElementById("numero_hosts").innerText = mascara !== 'No tiene' ? calcularHosts(mascara) : '-';
 
-    // Clase de red
-    if (document.getElementById("clase_red"))
-        document.getElementById("clase_red").innerText = clase;
+    // Clase de red (A, B, C en naranja y negrita, D y E en negro normal)
+    if (document.getElementById("clase_red")) {
+        if (clase === 'A' || clase === 'B' || clase === 'C') {
+            document.getElementById("clase_red").innerHTML = `<span class="clase-letra-azul">${clase}</span>`;
+        } else {
+            document.getElementById("clase_red").innerText = clase;
+        }
+    }
 
     // Tipo de red
     if (document.getElementById("tipo_red"))
@@ -147,6 +213,28 @@ function mostrarResultado() {
     formulario.style.display = "none";
     resultado.style.display = "block";
 }
+
+// Botón para alternar decimal/binario
+document.getElementById("toggle_binario").addEventListener("click", function() {
+    const mostrarBinario = document.getElementById("ip_binario").style.display === "none";
+    // IP
+    document.getElementById("ip_completa").style.display = mostrarBinario ? "none" : "";
+    document.getElementById("ip_binario").style.display = mostrarBinario ? "" : "none";
+    // Máscara
+    document.getElementById("mascara_subred").style.display = mostrarBinario ? "none" : "";
+    document.getElementById("mascara_supred_binario").style.display = mostrarBinario ? "" : "none";
+    // Wildcard
+    document.getElementById("Wildcard").style.display = mostrarBinario ? "none" : "";
+    document.getElementById("Wildcard_binario").style.display = mostrarBinario ? "" : "none";
+    // Red
+    document.getElementById("direccion_red").style.display = mostrarBinario ? "none" : "";
+    document.getElementById("direccion_red_binario").style.display = mostrarBinario ? "" : "none";
+    // Broadcast
+    document.getElementById("direccion_broadcast").style.display = mostrarBinario ? "none" : "";
+    document.getElementById("direccion_broadcast_binario").style.display = mostrarBinario ? "" : "none";
+    // Cambia el texto del botón
+    this.innerText = mostrarBinario ? "Ver en decimal" : "Ver en binario";
+});
 
 document.getElementById("formulario").addEventListener('submit', function(event) {
     event.preventDefault();
