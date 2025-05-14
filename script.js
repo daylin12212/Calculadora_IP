@@ -21,17 +21,12 @@ document.getElementById("menu_principal").addEventListener("click", function() {
 
 //Muestra en verde los números en el rango indicado y muestra en rojo los que están fuera de rango
 document.getElementById("IP").addEventListener('input', () => {
-    if (IP.value <= 255 && IP.value >= 0) {
-        IP.style.color = "green"; 
-    } else {
-        IP.style.color = "red"; 
-    }
     formatoIP(ip) 
 });
 
 // Convierte un número a binario de 8 bits
-function toBin(octeto) {
-    return Number(octeto).toString(2).padStart(8, '0');
+function toBin(ip) {
+    return Number(ip).toString(2).padStart(8, '0');
 }
 
 // Calcula la wildcard a partir de la máscara
