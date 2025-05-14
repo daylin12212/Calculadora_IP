@@ -1,5 +1,7 @@
+//Variable que almacena el valor de la IP
 const ip = document.getElementById("IP");
 
+//Funcion que valida que la IP introducida sea acorde al formato indicado
 function formatoIP(ip) {
     const pattern = ip.pattern;
     const patron = new RegExp(pattern);  
