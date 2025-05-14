@@ -1,14 +1,23 @@
 //variables
 const octetos = document.querySelectorAll('.octeto');
 
-//Muestra en verde los números en el rango indicado y muestra en rojo los que están fuera de rango
+const ip = document.getElementById("IP");
 
+function formatoIP(ip) {
+    const pattern = ip.pattern;
+    const patron = new RegExp(pattern);  
+    const isValid = patron.test(ip.value);
+
+    if (isValid) {
+        ip.style.color = "green";
+    } else {
+        ip.style.color = "red";
+    }
+}
+
+//Muestra en verde los números en el rango indicado y muestra en rojo los que están fuera de rango
     document.getElementById("IP").addEventListener('input', () => {
-        if (IP.value <= 255 && IP.value >= 0) {
-            IP.style.color = "green"; 
-        } else {
-            IP.style.color = "red"; 
-        }
+        formatoIP(ip) 
     });
 
 
@@ -46,36 +55,19 @@ function tipoRed(primer_octeto) {
     }
 }
 // Obtener los elementos del formulario y muestra el resultado
-function mostrarResultado() {
-    const primer_octeto = document.getElementById("primer_octeto").value
-    const segundo_octeto = document.getElementById("segundo_octeto").value
-    const tercer_octeto = document.getElementById("tercer_octeto").value
-    const cuarto_octeto = document.getElementById("cuarto_octeto").value
+function mostrarResultado(ip) {
     formulario.style.display = "none"
     resultado.style.display = "block"
     ipMascaraClase(primer_octeto);
     tipoRed(primer_octeto);
-    document.getElementById("ip_completa").innerText = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + "." + cuarto_octeto;
+    document.getElementById("ip_completa").innerText = ip
 
 }
 
 //Validación de que la IP introducida sea válida
-document.getElementById("formulario").addEventListener('submit', function(event) {
+document.getElementById("formulario").addEventListener('submit', function(event, ip) {
     event.preventDefault();
-    let octetoNoValido = false; 
-
-    for (let i = 0; i < octetos.length; i++) {
-        if (octetos[i].style.color === "red") {
-            octetoNoValido = true;
-            alert("¡Hay un campo con valor inválido!");
-            break; 
-        }
-    }
-
-    if (!octetoNoValido) {
-        mostrarResultado()
-    }
-
+    mostrarResultado()
 });
 
 
