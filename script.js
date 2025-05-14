@@ -4,10 +4,10 @@ const octetos = document.querySelectorAll('.octeto');
 //Muestra en verde los números en el rango indicado y muestra en rojo los que están fuera de rango
 
     document.getElementById("IP").addEventListener('input', () => {
-        if (octeto.value <= 255 && octeto.value >= 0) {
-            octeto.style.color = "green"; 
+        if (IP.value <= 255 && IP.value >= 0) {
+            IP.style.color = "green"; 
         } else {
-            octeto.style.color = "red"; 
+            IP.style.color = "red"; 
         }
     });
 
