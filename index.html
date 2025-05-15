@@ -4,17 +4,17 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="styles.css">
-        <title>Calculadora IP</title>
+        <title>CalculaRedes</title>
         <link rel="icon" href="images/calculadora.png" type="i"/>
     </head>
     <body>
-        <h1>Calculadora IP</h1>  
+        <h1>CalculaRedes</h1>  
         <form method="POST" id="formulario">
             <label for="IP">Introduzca la IP:</label>
             <input type="text" id="IP" maxlength="15" autocomplete="off" placeholder="Ej: 00.0.0.0" pattern="^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$" required>
             
             <label for="mascara_personalizada">Introducza una máscara personalizada:</label>
-            <input type="number" id="mascara_personalizada" min="8" max="30" autocomplete="off" placeholder="Ej: 24"  >
+            <input type="number" id="mascara_personalizada" min="8" max="30" autocomplete="off" placeholder="Ej: 24">
 
             <button id="verIP" class="boton">Ver mi IP</button>
             <br>
@@ -36,7 +36,7 @@
                     <td id="ip_hexadecimal"></td>
                 </tr>
                 <tr>
-                    <th>Mascara de subred: </th>
+                    <th id="th_subred">Mascara de subred: </th>
                     <td>
                         <span id="mascara_subred"></span>
                         <span id="mascara_supred_binario" style="display:none;"></span>
@@ -50,7 +50,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Dirección de red: </th>
+                    <th id="th_red">Dirección de red: </th>
                     <td>
                         <span id="direccion_red"></span>
                         <span id="direccion_red_binario" style="display:none;"></span>
@@ -64,7 +64,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Número de hosts: </th>
+                    <th id="th_host">Número de hosts: </th>
                     <td id="numero_hosts"></td>
                 </tr>
                 <tr>

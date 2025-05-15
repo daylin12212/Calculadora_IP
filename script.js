@@ -1,5 +1,4 @@
 const ip = document.getElementById("IP");
-let mascara_personalizada = document.getElementById("mascara_personalizada");
 
 let clase = "";
 let mascara = "";
@@ -7,7 +6,6 @@ let wildcard = "";
 let direccion_red = "";
 let direccion_broadcast = "";
 let hosts = "";
-let n = "";
 let numero_subredes = "";
 
 
@@ -66,44 +64,48 @@ document.getElementById("menu_principal").addEventListener('click', () => {
     window.location.href = "index.html";
 });
 
-function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto, clase, mascara, wildcard, direccion_red, direccion_broadcast,hosts) {
-let mascara_personalizada = document.getElementById("mascara_personalizada");
+function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto, clase, mascara, wildcard, direccion_red, direccion_broadcast, hosts) {
+    let mascara_personalizada = document.getElementById("mascara_personalizada");
+
 
     let bistHosts = 32 - mascara_personalizada.value;
+    let numero_subredes;
+
+    let bits_predeterminados;
 
     if (primer_octeto >= 0 && primer_octeto <= 127) {
         clase = "Clase A";
+        bits_predeterminados = 8; 
         mascara = "255.0.0.0";
         wildcard = "0.255.255.255";
         direccion_red = primer_octeto + ".0.0.0";
         direccion_broadcast = primer_octeto + ".255.255.255";
-        hosts = Math.pow(2, bistHosts) - 2;
-        let bist_prestadosA = mascara_personalizada.value - 8;
+
+        let bist_prestadosA = mascara_personalizada.value - bits_predeterminados;
         numero_subredes = Math.pow(2, bist_prestadosA);
-
-
+        
     } else if (primer_octeto >= 128 && primer_octeto <= 191) {
         clase = "Clase B";
+        bits_predeterminados = 16; 
         mascara = "255.255.0.0";
         wildcard = "0.0.255.255";
         direccion_red = primer_octeto + "." + segundo_octeto + ".0.0";
         direccion_broadcast = primer_octeto + "." + segundo_octeto + ".255.255";
-        hosts = Math.pow(2, bistHosts) - 2;
-        let bist_prestadosB = mascara_personalizada.value - 8;
+        
+        let bist_prestadosB = mascara_personalizada.value - bits_predeterminados;
         numero_subredes = Math.pow(2, bist_prestadosB);
-
-
+        
     } else if (primer_octeto >= 192 && primer_octeto <= 223) {
         clase = "Clase C";
+        bits_predeterminados = 24; 
         mascara = "255.255.255.0";
         wildcard = "0.0.0.255";
         direccion_red = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + ".0";
         direccion_broadcast = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + ".255";
-        hosts = Math.pow(2,bistHosts) - 2;
-        let bist_prestadosC = mascara_personalizada.value - 8;
+        
+        let bist_prestadosC = mascara_personalizada.value - bits_predeterminados;
         numero_subredes = Math.pow(2, bist_prestadosC);
-
-
+        
     } else if (primer_octeto >= 224 && primer_octeto <= 239) {
         clase = "Clase D";
         mascara = "No tiene máscara";
@@ -123,6 +125,8 @@ let mascara_personalizada = document.getElementById("mascara_personalizada");
         numero_subredes = "No tiene número subredes";
     }
 
+    hosts = Math.pow(2, bistHosts) - 2;
+
     document.getElementById("clase_red").innerText = clase;
     document.getElementById("mascara_subred").innerText = mascara;
     document.getElementById("Wildcard").innerText = wildcard;
@@ -140,6 +144,17 @@ function tipoRed(primer_octeto) {
     }
 }
 
+function mostrarIPHexadecimal(octetos) {
+    const ipHex = octetos
+        .map(octeto => {
+            let hex = parseInt(octeto).toString(16).toUpperCase();
+            return hex.length === 1 ? "0" + hex : hex;
+        })
+        .join('.');
+    document.getElementById("ip_hexadecimal").innerText = ipHex;
+}
+
+
 function mostrarResultado(ip) {
     const formulario = document.getElementById("formulario");
     const resultado = document.getElementById("resultado");
@@ -150,22 +165,42 @@ function mostrarResultado(ip) {
     const primer_octeto = parseInt(octetos[0]);
     const segundo_octeto = parseInt(octetos[1]);
     const tercer_octeto = parseInt(octetos[2]);
-    const cuarto_octeto = parseInt(octetos[3]);
 
     caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto);
     tipoRed(primer_octeto);
+
     document.getElementById("ip_completa").innerText = ip;
+    document.getElementById("ip_completa").style.display = "";
+    document.getElementById("ip_binario").style.display = "none";
+    document.getElementById("toggle_binario").innerText = "Ver en binario";
 
-    // Mostrar IP en hexadecimal
-    const ipHex = octetos
-        .map(octeto => {
-            let hex = parseInt(octeto).toString(16).toUpperCase();
-            return hex.length === 1 ? "0" + hex : hex;
-        })
-        .join('.');
-    document.getElementById("ip_hexadecimal").innerText = ipHex;
+    let binarios = octetos.map(o => ("00000000" + parseInt(o).toString(2)).slice(-8));
+    let ipBinColoreada = "";
+    if (primer_octeto >= 0 && primer_octeto <= 127) { // Clase A
+        ipBinColoreada =
+            `<span class="ip-red">${binarios[0]}</span>.` +
+            `<span class="ip-subred">${binarios[1]}</span>.` +
+            `<span class="ip-subred">${binarios[2]}</span>.` +
+            `<span class="ip-host">${binarios[3]}</span>`;
+    } else if (primer_octeto >= 128 && primer_octeto <= 191) { // Clase B
+        ipBinColoreada =
+            `<span class="ip-red">${binarios[0]}</span>.` +
+            `<span class="ip-red">${binarios[1]}</span>.` +
+            `<span class="ip-subred">${binarios[2]}</span>.` +
+            `<span class="ip-host">${binarios[3]}</span>`;
+    } else if (primer_octeto >= 192 && primer_octeto <= 223) { 
+        ipBinColoreada =
+            `<span class="ip-red">${binarios[0]}</span>.` +
+            `<span class="ip-red">${binarios[1]}</span>.` +
+            `<span class="ip-red">${binarios[2]}</span>.` +
+            `<span class="ip-host">${binarios[3]}</span>`;
+    } else {
+        ipBinColoreada = binarios.map(b => `<span class="ip-inactivo">${b}</span>`).join('.');
+    }
+    document.getElementById("ip_binario").innerHTML = ipBinColoreada;
 
-    // Calcular host mínimo y máximo
+    mostrarIPHexadecimal(octetos);
+
     const mascaraBits = parseInt(document.getElementById("mascara_personalizada").value);
     if (mascaraBits >= 8 && mascaraBits <= 30) {
         const ipNum = octetos.reduce((acc, val) => (acc << 8) + parseInt(val), 0);
@@ -173,9 +208,8 @@ function mostrarResultado(ip) {
         const red = ipNum & mask;
         const broadcast = red | (~mask >>> 0);
 
-        // Host mínimo: dirección de red + 1
         const hostMin = red + 1;
-        // Host máximo: dirección de broadcast - 1
+
         const hostMax = broadcast - 1;
 
         function numToIp(num) {
