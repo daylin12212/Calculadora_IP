@@ -21,13 +21,27 @@ function formatoIP(ip) {
         ip.style.color = "red";
     }
 }
+
 document.getElementById("IP").addEventListener('input', () => {
     formatoIP(ip);
+    personalizarMascara(ip)
 });
 
-document.getElementById("mascara_personalizada").addEventListener('input', () => {
-    
-});
+
+function personalizarMascara(ip) {
+    const octetos = ip.value.split('.');
+    const primer_octeto = parseInt(octetos[0]);
+    if (primer_octeto >= 0 && primer_octeto <= 127) {
+        document.getElementById("mascara_personalizada").value = 8;
+    }
+    else if (primer_octeto >= 128 && primer_octeto <= 191) {
+        document.getElementById("mascara_personalizada").value = 16;
+    } else if (primer_octeto >= 192 && primer_octeto <= 223) {
+        document.getElementById("mascara_personalizada").value = 24;
+    } else {
+        document.getElementById("mascara_personalizada").value = "";
+    }
+};
 
 document.getElementById("menu_principal").addEventListener('click', () => {
     window.location.href = "index.html";
