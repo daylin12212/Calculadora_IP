@@ -126,6 +126,15 @@ function mostrarResultado(ip) {
     caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto);
     tipoRed(primer_octeto);
     document.getElementById("ip_completa").innerText = ip;
+
+    // Mostrar IP en hexadecimal
+    const ipHex = octetos
+        .map(octeto => {
+            let hex = parseInt(octeto).toString(16).toUpperCase();
+            return hex.length === 1 ? "0" + hex : hex;
+        })
+        .join('.');
+    document.getElementById("ip_hexadecimal").innerText = ipHex;
 }
 
 document.getElementById("formulario").addEventListener('submit', function(event) {
