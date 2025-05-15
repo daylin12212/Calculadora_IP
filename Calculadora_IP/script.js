@@ -218,17 +218,15 @@ document.getElementById("formulario").addEventListener('submit', function(event)
     mostrarResultado(ip);
 });
 
+// Obtener la IP pública y asignarla al placeholder del input con id "IP"
 async function asignarIPPlaceholder() {
     try {
+        // Llamada a la API para obtener la IP pública
         const response = await fetch('https://api.ipify.org?format=json');
         const data = await response.json();
 
-<<<<<<< HEAD
         // Asignar la IP pública al placeholder del input
         document.getElementById("IP").placeholder = `IP Actual: ${data.ip}`;
-=======
-        document.getElementById("IP").placeholder = `Ej: ${data.ip}`;
->>>>>>> 42ef1926c49f651e8911392545ef2ab0e35a313a
     } catch (error) {
         console.error("Error al obtener la IP pública:", error);
     }
@@ -237,25 +235,28 @@ async function asignarIPPlaceholder() {
 asignarIPPlaceholder();
 
 document.getElementById("toggle_binario").addEventListener("click", function () {
+    // Alternar visibilidad de IP
     let ipBin = document.getElementById("ip_binario");
     let ipDec = document.getElementById("ip_completa");
-
+    // Wildcard
     let wildcardBin = document.getElementById("Wildcard_binario");
     let wildcardDec = document.getElementById("Wildcard");
-
+    // Máscara de subred
     let mascaraBin = document.getElementById("mascara_supred_binario");
     let mascaraDec = document.getElementById("mascara_subred");
-
+    // Dirección de red
     let redBin = document.getElementById("direccion_red_binario");
     let redDec = document.getElementById("direccion_red");
-
+    // Broadcast
     let broadBin = document.getElementById("direccion_broadcast_binario");
     let broadDec = document.getElementById("direccion_broadcast");
 
+    // th leyenda
     let thRed = document.getElementById("th_red");
     let thSubred = document.getElementById("th_subred");
     let thHost = document.getElementById("th_host");
 
+    // Si no están generados, los generamos aquí
     function toBin(ip) {
         return ip.split('.').map(o => ("00000000" + parseInt(o).toString(2)).slice(-8)).join('.');
     }
@@ -266,6 +267,7 @@ document.getElementById("toggle_binario").addEventListener("click", function () 
     if (!redBin.innerHTML) redBin.innerHTML = toBin(redDec.innerText);
     if (!broadBin.innerHTML) broadBin.innerHTML = toBin(broadDec.innerText);
 
+    // Alternar
     let mostrarBinario = ipBin.style.display === "none";
     ipBin.style.display = mostrarBinario ? "" : "none";
     ipDec.style.display = mostrarBinario ? "none" : "";
@@ -278,6 +280,7 @@ document.getElementById("toggle_binario").addEventListener("click", function () 
     broadBin.style.display = mostrarBinario ? "" : "none";
     broadDec.style.display = mostrarBinario ? "none" : "";
 
+    // Cambia colores de leyenda
     if (thRed && thSubred && thHost) {
         if (mostrarBinario) {
             thRed.classList.add("th-red");
