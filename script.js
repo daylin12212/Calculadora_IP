@@ -1,11 +1,13 @@
 const ip = document.getElementById("IP");
+let mascara_personalizada = document.getElementById("mascara_personalizada");
 
-let clase = ""
-let mascara = ""
-let wildcard = ""
-let direccion_red = ""
-let direccion_broadcast = ""
-let hosts = ""
+let clase = "";
+let mascara = "";
+let wildcard = "";
+let direccion_red = "";
+let direccion_broadcast = "";
+let hosts = "";
+let n = "";
 
 
 function formatoIP(ip) {
@@ -31,16 +33,6 @@ document.getElementById("menu_principal").addEventListener('click', () => {
     window.location.href = "index.html";
 });
 
-/**function calcularNumeroHosts(mascara) {
-    let mascaraBits = mascara.split('.').map(octeto => {
-        return parseInt(octeto).toString(2).padStart(8, '0');
-    }).join('');
-
-    let hostBits = mascaraBits.split('1').pop().length;
-
-    return (Math.pow(2, hostBits) - 2); 
-}**/
-
 function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto, clase, mascara, wildcard, direccion_red, direccion_broadcast,hosts) {
 
 
@@ -50,6 +42,7 @@ function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto, clase, 
         wildcard = "0.255.255.255";
         direccion_red = primer_octeto + ".0.0.0";
         direccion_broadcast = primer_octeto + ".255.255.255";
+        hosts = Math.pow(2, mascara_personalizada.value) - 2;
 
 
     } else if (primer_octeto >= 128 && primer_octeto <= 191) {
@@ -58,6 +51,7 @@ function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto, clase, 
         wildcard = "0.0.255.255";
         direccion_red = primer_octeto + "." + segundo_octeto + ".0.0";
         direccion_broadcast = primer_octeto + "." + segundo_octeto + ".255.255";
+        hosts = Math.pow(2, mascara_personalizada.value) - 2;
 
 
     } else if (primer_octeto >= 192 && primer_octeto <= 223) {
@@ -66,6 +60,7 @@ function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto, clase, 
         wildcard = "0.0.0.255";
         direccion_red = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + ".0";
         direccion_broadcast = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + ".255";
+        hosts = Math.pow(2, mascara_personalizada.value) - 2;
 
 
     } else if (primer_octeto >= 224 && primer_octeto <= 239) {
