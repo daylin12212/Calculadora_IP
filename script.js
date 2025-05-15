@@ -132,7 +132,8 @@ function mostrarResultado(ip) {
     const primer_octeto = parseInt(octetos[0]);
     const segundo_octeto = parseInt(octetos[1]);
     const tercer_octeto = parseInt(octetos[2]);
-    
+    const cuarto_octeto = parseInt(octetos[3]);
+
     caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto);
     tipoRed(primer_octeto);
     document.getElementById("ip_completa").innerText = ip;
@@ -145,6 +146,35 @@ function mostrarResultado(ip) {
         })
         .join('.');
     document.getElementById("ip_hexadecimal").innerText = ipHex;
+
+    // Calcular host mínimo y máximo
+    const mascaraBits = parseInt(document.getElementById("mascara_personalizada").value);
+    if (mascaraBits >= 8 && mascaraBits <= 30) {
+        const ipNum = octetos.reduce((acc, val) => (acc << 8) + parseInt(val), 0);
+        const mask = (0xFFFFFFFF << (32 - mascaraBits)) >>> 0;
+        const red = ipNum & mask;
+        const broadcast = red | (~mask >>> 0);
+
+        // Host mínimo: dirección de red + 1
+        const hostMin = red + 1;
+        // Host máximo: dirección de broadcast - 1
+        const hostMax = broadcast - 1;
+
+        function numToIp(num) {
+            return [
+                (num >>> 24) & 0xFF,
+                (num >>> 16) & 0xFF,
+                (num >>> 8) & 0xFF,
+                num & 0xFF
+            ].join('.');
+        }
+
+        document.getElementById("host_minimo").innerText = numToIp(hostMin);
+        document.getElementById("host_maximo").innerText = numToIp(hostMax);
+    } else {
+        document.getElementById("host_minimo").innerText = "N/A";
+        document.getElementById("host_maximo").innerText = "N/A";
+    }
 }
 
 document.getElementById("formulario").addEventListener('submit', function(event) {
