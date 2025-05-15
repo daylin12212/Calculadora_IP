@@ -1,6 +1,9 @@
 body {
-    font-family: 'Roboto', sans-serif; 
-    background-color: #e9ecef; 
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; 
+    background-image: url('images/fondo.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     color: #343a40; 
     margin: 0;
     padding: 0;
@@ -14,7 +17,7 @@ body {
 
 h1 {
     font-size: 28px;
-    color: #495057;
+    color: white;
     margin-bottom: 20px; 
     margin-top: 0; 
 }
@@ -27,14 +30,19 @@ h1 {
     width: 280px;
 }
 
-label, th {
+#resultado {
+    max-width: 900px;
+    width: 100%;
+}
+
+label{
     font-size: 14px;
     margin-bottom: 6px;
     display: block;
     color: #495057;
 }
 
-input.octeto, td {
+input#IP, input#mascara_personalizada {
     width: 70%;
     padding: 12px;
     margin: 20px; 
@@ -44,7 +52,7 @@ input.octeto, td {
     background-color: #f8f9fa; 
 }
 
-input.octeto:focus {
+input#IP:focus, input#mascara_personalizada {
     border-color: #007bff; 
     outline: none;
 }
@@ -65,3 +73,58 @@ button.boton:hover {
     background-color: #0056b3; 
 }
 
+#resultado table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 6px;
+    table-layout: fixed;
+}
+
+th, td {
+    padding: 10px 4px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 15px;
+    word-break: break-all;
+    background-color: #f1f1f1;
+}
+
+th {
+    font-weight: bold;
+    background-color: #e9ecef;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+#resultado table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+#ip_binario,
+#mascara_supred_binario,
+#Wildcard_binario,
+#direccion_red_binario,
+#direccion_broadcast_binario {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 15px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    background: none;
+    border: none;
+    box-shadow: none;
+    white-space: normal;
+    overflow-x: visible;
+}
+
+.ip-red, .th-red { color: #007bff; font-weight: bold; }      /* Azul para red */
+.ip-subred, .th-subred { color: #28a745; font-weight: bold; }   /* Verde para subred */
+.ip-host, .th-host { color: #ffc107; font-weight: bold; }     /* Amarillo para host */
+.ip-inactivo { color: #bbb; font-style: italic; }   /* Gris para inactivo */
