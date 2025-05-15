@@ -155,19 +155,17 @@ function mostrarResultado(ip) {
             `<span class="ip-red">${binarios[1]}</span>.` +
             `<span class="ip-subred">${binarios[2]}</span>.` +
             `<span class="ip-host">${binarios[3]}</span>`;
-    } else if (primer_octeto >= 192 && primer_octeto <= 223) { // Clase C
+    } else if (primer_octeto >= 192 && primer_octeto <= 223) { 
         ipBinColoreada =
             `<span class="ip-red">${binarios[0]}</span>.` +
             `<span class="ip-red">${binarios[1]}</span>.` +
             `<span class="ip-red">${binarios[2]}</span>.` +
             `<span class="ip-host">${binarios[3]}</span>`;
     } else {
-        // Clase D o E: todo inactivo
         ipBinColoreada = binarios.map(b => `<span class="ip-inactivo">${b}</span>`).join('.');
     }
     document.getElementById("ip_binario").innerHTML = ipBinColoreada;
 
-    // Mostrar IP en hexadecimal
     const ipHex = octetos
         .map(octeto => {
             let hex = parseInt(octeto).toString(16).toUpperCase();
@@ -176,7 +174,6 @@ function mostrarResultado(ip) {
         .join('.');
     document.getElementById("ip_hexadecimal").innerText = ipHex;
 
-    // Calcular host mínimo y máximo
     const mascaraBits = parseInt(document.getElementById("mascara_personalizada").value);
     if (mascaraBits >= 8 && mascaraBits <= 30) {
         const ipNum = octetos.reduce((acc, val) => (acc << 8) + parseInt(val), 0);
