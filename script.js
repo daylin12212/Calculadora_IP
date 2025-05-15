@@ -7,7 +7,6 @@ let wildcard = "";
 let direccion_red = "";
 let direccion_broadcast = "";
 let hosts = "";
-let n = "";
 
 
 function formatoIP(ip) {
