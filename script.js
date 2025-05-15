@@ -8,6 +8,7 @@ let direccion_red = "";
 let direccion_broadcast = "";
 let hosts = "";
 let n = "";
+let numero_subredes = "";
 
 
 function formatoIP(ip) {
@@ -59,6 +60,8 @@ let mascara_personalizada = document.getElementById("mascara_personalizada");
         direccion_red = primer_octeto + ".0.0.0";
         direccion_broadcast = primer_octeto + ".255.255.255";
         hosts = Math.pow(2, bistHosts) - 2;
+        let bist_prestadosA = mascara_personalizada.value - 8;
+        numero_subredes = Math.pow(2, bist_prestadosA);
 
 
     } else if (primer_octeto >= 128 && primer_octeto <= 191) {
@@ -68,6 +71,8 @@ let mascara_personalizada = document.getElementById("mascara_personalizada");
         direccion_red = primer_octeto + "." + segundo_octeto + ".0.0";
         direccion_broadcast = primer_octeto + "." + segundo_octeto + ".255.255";
         hosts = Math.pow(2, bistHosts) - 2;
+        let bist_prestadosB = mascara_personalizada.value - 8;
+        numero_subredes = Math.pow(2, bist_prestadosB);
 
 
     } else if (primer_octeto >= 192 && primer_octeto <= 223) {
@@ -77,6 +82,8 @@ let mascara_personalizada = document.getElementById("mascara_personalizada");
         direccion_red = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + ".0";
         direccion_broadcast = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + ".255";
         hosts = Math.pow(2,bistHosts) - 2;
+        let bist_prestadosC = mascara_personalizada.value - 8;
+        numero_subredes = Math.pow(2, bist_prestadosC);
 
 
     } else if (primer_octeto >= 224 && primer_octeto <= 239) {
@@ -86,6 +93,7 @@ let mascara_personalizada = document.getElementById("mascara_personalizada");
         direccion_red = "No tiene dirección de red";
         direccion_broadcast = "No tiene dirección de broadcast";
         hosts = "No tiene número de hosts";
+        numero_subredes = "No tiene número subredes";
 
     } else if (primer_octeto >= 240 && primer_octeto <= 255) {
         clase = "Clase E";
@@ -94,6 +102,7 @@ let mascara_personalizada = document.getElementById("mascara_personalizada");
         direccion_red = "No tiene dirección de red";
         direccion_broadcast = "No tiene dirección de broadcast";
         hosts = "No tiene número de hosts";
+        numero_subredes = "No tiene número subredes";
     }
 
     document.getElementById("clase_red").innerText = clase;
@@ -102,6 +111,7 @@ let mascara_personalizada = document.getElementById("mascara_personalizada");
     document.getElementById("direccion_red").innerText = direccion_red;
     document.getElementById("direccion_broadcast").innerText = direccion_broadcast;
     document.getElementById("numero_hosts").innerText = hosts;
+    document.getElementById("numero_subredes").innerText = numero_subredes;
 }
 
 function tipoRed(primer_octeto) {
