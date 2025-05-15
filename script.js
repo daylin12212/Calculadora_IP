@@ -24,7 +24,7 @@ document.getElementById("IP").addEventListener('input', () => {
     formatoIP(ip) 
 });
 
-// Convierte un número a binario de 8 bits
+// Convierte un número a binario de 8 bits 
 function toBin(ip) {
     return Number(ip).toString(2).padStart(8, '0');
 }

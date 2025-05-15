@@ -12,7 +12,7 @@ Proyecto "CalcuRedes" en JavaScript (4 sesiones) para practias 1ºDAW
 
 **Soluciones aplicadas:**^
 - [Investigamos en paginas web e inteligencias artificiales]
-
+ 
 **Fuentes consultadas**
 - [https://chatgpt.com/]
 - [https://copilot.microsoft.com/chats/TD3GRcBEJtP67GRkjVevj]
