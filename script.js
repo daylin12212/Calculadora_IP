@@ -121,6 +121,17 @@ function tipoRed(primer_octeto) {
     }
 }
 
+function ipHexadecimal(octetos) {
+    const ipHex = octetos
+    .map(octeto => {
+        let hex = parseInt(octeto).toString(16).toUpperCase();
+        return hex.length === 1 ? "0" + hex : hex;
+    })
+    .join('.');
+document.getElementById("ip_hexadecimal").innerText = ipHex;
+}
+
+
 function mostrarResultado(ip) {
     const formulario = document.getElementById("formulario");
     const resultado = document.getElementById("resultado");
@@ -136,13 +147,7 @@ function mostrarResultado(ip) {
     tipoRed(primer_octeto);
     document.getElementById("ip_completa").innerText = ip;
 
-    const ipHex = octetos
-        .map(octeto => {
-            let hex = parseInt(octeto).toString(16).toUpperCase();
-            return hex.length === 1 ? "0" + hex : hex;
-        })
-        .join('.');
-    document.getElementById("ip_hexadecimal").innerText = ipHex;
+    ipHexadecimal(octetos)
 
     const mascaraBits = parseInt(document.getElementById("mascara_personalizada").value);
     if (mascaraBits >= 8 && mascaraBits <= 30) {
