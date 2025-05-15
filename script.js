@@ -1,5 +1,4 @@
 const ip = document.getElementById("IP");
-let mascara_personalizada = document.getElementById("mascara_personalizada");
 
 let clase = "";
 let mascara = "";
@@ -48,7 +47,7 @@ document.getElementById("menu_principal").addEventListener('click', () => {
     window.location.href = "index.html";
 });
 
-function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto, clase, mascara, wildcard, direccion_red, direccion_broadcast,hosts) {
+function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto, clase, mascara, wildcard, direccion_red, direccion_broadcast, hosts) {
 let mascara_personalizada = document.getElementById("mascara_personalizada");
 
     let bistHosts = 32 - mascara_personalizada.value;
@@ -132,7 +131,6 @@ function mostrarResultado(ip) {
     const primer_octeto = parseInt(octetos[0]);
     const segundo_octeto = parseInt(octetos[1]);
     const tercer_octeto = parseInt(octetos[2]);
-    const cuarto_octeto = parseInt(octetos[3]);
 
     caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto);
     tipoRed(primer_octeto);
