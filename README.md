@@ -12,7 +12,7 @@ Proyecto "CalcuRedes" en JavaScript (4 sesiones) para practias 1ºDAW
 
 **Soluciones aplicadas:**^
 - [Investigamos en paginas web e inteligencias artificiales]
- 
+
 **Fuentes consultadas**
 - [https://chatgpt.com/]
 - [https://copilot.microsoft.com/chats/TD3GRcBEJtP67GRkjVevj]
@@ -46,3 +46,27 @@ Proyecto "CalcuRedes" en JavaScript (4 sesiones) para practias 1ºDAW
 
  *Ideas de mejora futura:*
  - [Terminar las funcionalidades faltantes y dar más estilos y colores]
+
+  ## sesion 3
+
+  **Resumen:**
+[Hemos conseguido implementar las funcionalidades que nos faltaban en la sesión anterior y añadir las tareas de la sesión de hoy. La aplicación es funcional y muestra todos los datos requeridos]
+
+**Dificultades encontradas**
+- [Dificultad 1: No se subió correctamente el código de la sesión anterior]
+- [Dificultad 2: No conseguimos hacer la conversión a binario ni mostrar los hosts adecuadamente]
+
+**Soluciones aplicadas:**
+- [Solución 1: Restaurar la versión anterior para continuar con el trabajo de la sesión de ayer]
+- [Solución 2: Se investigaron diferentes fuentes hasta conseguir realizar las conversiones y los calculos adecuadamente]
+
+**Fuentes consultadas**
+- [https://chatgpt.com/]
+- [https://copilot.microsoft.com/chats/TD3GRcBEJtP67GRkjVevj]
+ 
+ **Decisiones tecnicas**
+ - [Mantenemos un formato parecido a la sesión 1 e intentamos implementar el código reutilizando el mismo lo máximo posible]
+ - [Implementación de un botón para alternar la vista entre los números en decimal y en binario]
+
+ *Ideas de mejora futura:*
+ - [Mejorar la legibilidad y la modulación del código]

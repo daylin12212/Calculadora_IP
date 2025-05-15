@@ -4,29 +4,37 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="styles.css">
-        <title>Calculadora IP</title>
+        <title>CalculaRedes</title>
         <link rel="icon" href="images/calculadora.png" type="i"/>
     </head>
     <body>
-        <h1>Calculadora IP</h1>  
+        <h1>CalculaRedes</h1>  
         <form method="POST" id="formulario">
-            <label for="primer_octeto">Introduzca la IP:</label>
-            <input type="text" id="IP" maxlength="15" autocomplete="off" placeholder="Ej: 255.255.255.255" pattern="^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$" required>
+            <label for="IP">Introduzca la IP:</label>
+            <input type="text" id="IP" maxlength="15" autocomplete="off" placeholder="" pattern="^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$" required>
+            
+            <label for="mascara_personalizada">Introducza una máscara personalizada:</label>
+            <input type="number" id="mascara_personalizada" min="8" max="30" autocomplete="off" placeholder="Ej: 24">
 
             <button id="calcular" class="boton">Calcular</button>
+            
         </form>
         <div id="resultado" style="display: none;">
             <button id="toggle_binario" class="boton" type="button">Ver en binario</button>
             <table>
                 <tr>
-                    <th>Ip: </th> 
+                    <th>IP: </th>
                     <td>
                         <span id="ip_completa"></span>
                         <span id="ip_binario" style="display:none;"></span>
                     </td>
                 </tr>
                 <tr>
-                    <th>Mascara de subred: </th>
+                    <th>IP (hexadecimal): </th>
+                    <td id="ip_hexadecimal"></td>
+                </tr>
+                <tr>
+                    <th id="th_subred">Mascara de subred: </th>
                     <td>
                         <span id="mascara_subred"></span>
                         <span id="mascara_supred_binario" style="display:none;"></span>
@@ -40,7 +48,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Dirección de red: </th>
+                    <th id="th_red">Dirección de red: </th>
                     <td>
                         <span id="direccion_red"></span>
                         <span id="direccion_red_binario" style="display:none;"></span>
@@ -54,7 +62,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Número de hosts: </th>
+                    <th id="th_host">Número de hosts: </th>
                     <td id="numero_hosts"></td>
                 </tr>
                 <tr>
@@ -65,11 +73,21 @@
                     <th>Tipo de red: </th>
                     <td id="tipo_red"></td>
                 </tr>
+                <tr>
+                    <th>Número de subredes: </th>
+                    <td id="numero_subredes"></td>
+                </tr>
+                <tr>
+                    <th>Host mínimo: </th>
+                    <td id="host_minimo"></td>
+                </tr>
+                <tr>
+                    <th>Host máximo: </th>
+                    <td id="host_maximo"></td>
+                </tr>
             </table>
             <button id="menu_principal" class="boton">Menú principal</button>
         </div>
-    
-
         <script src="script.js"></script>
     </body>
     </html>
