@@ -7,6 +7,7 @@ let wildcard = "";
 let direccion_red = "";
 let direccion_broadcast = "";
 let hosts = "";
+let n = "";
 
 
 function formatoIP(ip) {
@@ -47,7 +48,9 @@ document.getElementById("menu_principal").addEventListener('click', () => {
 });
 
 function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto, clase, mascara, wildcard, direccion_red, direccion_broadcast,hosts) {
+let mascara_personalizada = document.getElementById("mascara_personalizada");
 
+    let bistHosts = 32 - mascara_personalizada.value;
 
     if (primer_octeto >= 0 && primer_octeto <= 127) {
         clase = "Clase A";
@@ -55,7 +58,7 @@ function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto, clase, 
         wildcard = "0.255.255.255";
         direccion_red = primer_octeto + ".0.0.0";
         direccion_broadcast = primer_octeto + ".255.255.255";
-        hosts = Math.pow(2, mascara_personalizada.value) - 2;
+        hosts = Math.pow(2, bistHosts) - 2;
 
 
     } else if (primer_octeto >= 128 && primer_octeto <= 191) {
@@ -64,7 +67,7 @@ function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto, clase, 
         wildcard = "0.0.255.255";
         direccion_red = primer_octeto + "." + segundo_octeto + ".0.0";
         direccion_broadcast = primer_octeto + "." + segundo_octeto + ".255.255";
-        hosts = Math.pow(2, mascara_personalizada.value) - 2;
+        hosts = Math.pow(2, bistHosts) - 2;
 
 
     } else if (primer_octeto >= 192 && primer_octeto <= 223) {
@@ -73,7 +76,7 @@ function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto, clase, 
         wildcard = "0.0.0.255";
         direccion_red = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + ".0";
         direccion_broadcast = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + ".255";
-        hosts = Math.pow(2, mascara_personalizada.value) - 2;
+        hosts = Math.pow(2,bistHosts) - 2;
 
 
     } else if (primer_octeto >= 224 && primer_octeto <= 239) {
