@@ -138,7 +138,6 @@ function mostrarResultado(ip) {
     tipoRed(primer_octeto);
     document.getElementById("ip_completa").innerText = ip;
 
-    // Mostrar IP en hexadecimal
     const ipHex = octetos
         .map(octeto => {
             let hex = parseInt(octeto).toString(16).toUpperCase();
@@ -147,7 +146,6 @@ function mostrarResultado(ip) {
         .join('.');
     document.getElementById("ip_hexadecimal").innerText = ipHex;
 
-    // Calcular host mínimo y máximo
     const mascaraBits = parseInt(document.getElementById("mascara_personalizada").value);
     if (mascaraBits >= 8 && mascaraBits <= 30) {
         const ipNum = octetos.reduce((acc, val) => (acc << 8) + parseInt(val), 0);
@@ -155,9 +153,8 @@ function mostrarResultado(ip) {
         const red = ipNum & mask;
         const broadcast = red | (~mask >>> 0);
 
-        // Host mínimo: dirección de red + 1
         const hostMin = red + 1;
-        // Host máximo: dirección de broadcast - 1
+
         const hostMax = broadcast - 1;
 
         function numToIp(num) {
