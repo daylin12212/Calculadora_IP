@@ -44,6 +44,24 @@ function personalizarMascara(ip) {
     }
 };
 
+document.getElementById("verIP").addEventListener('click', () => {
+    window.location.href = "https://www.myip.com/";
+});
+
+document.getElementById("verIP").addEventListener('click', async () => {
+    try {
+        // Llamada a la API para obtener la IP pública
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+
+        // Mostrar la IP en el elemento con id "ip_completa"
+        document.getElementById("ip_completa").innerText = `Tu IP pública es: ${data.ip}`;
+    } catch (error) {
+        console.error("Error al obtener la IP:", error);
+        alert("No se pudo obtener la IP. Por favor, verifica tu conexión.");
+    }
+});
+
 document.getElementById("menu_principal").addEventListener('click', () => {
     window.location.href = "index.html";
 });
@@ -182,3 +200,18 @@ document.getElementById("formulario").addEventListener('submit', function(event)
     const ip = document.getElementById("IP").value;
     mostrarResultado(ip);
 });
+
+// Obtener la IP pública y asignarla al placeholder del input con id "IP"
+async function asignarIPPlaceholder() {
+    try {
+        // Llamada a la API para obtener la IP pública
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+
+        // Asignar la IP pública al placeholder del input
+        document.getElementById("IP").placeholder = `Ej: ${data.ip}`;
+    } catch (error) {
+        console.error("Error al obtener la IP pública:", error);
+    }
+}
+
