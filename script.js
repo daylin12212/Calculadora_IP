@@ -42,23 +42,6 @@ function personalizarMascara(ip) {
     }
 };
 
-document.getElementById("verIP").addEventListener('click', () => {
-    window.location.href = "https://www.myip.com/";
-});
-
-document.getElementById("verIP").addEventListener('click', async () => {
-    try {
-        // Llamada a la API para obtener la IP pública
-        const response = await fetch('https://api.ipify.org?format=json');
-        const data = await response.json();
-
-        // Mostrar la IP en el elemento con id "ip_completa"
-        document.getElementById("ip_completa").innerText = `Tu IP pública es: ${data.ip}`;
-    } catch (error) {
-        console.error("Error al obtener la IP:", error);
-        alert("No se pudo obtener la IP. Por favor, verifica tu conexión.");
-    }
-});
 
 document.getElementById("menu_principal").addEventListener('click', () => {
     window.location.href = "index.html";
@@ -243,11 +226,13 @@ async function asignarIPPlaceholder() {
         const data = await response.json();
 
         // Asignar la IP pública al placeholder del input
-        document.getElementById("IP").placeholder = `Ej: ${data.ip}`;
+        document.getElementById("IP").placeholder = `IP Actual: ${data.ip}`;
     } catch (error) {
         console.error("Error al obtener la IP pública:", error);
     }
 }
+
+asignarIPPlaceholder();
 
 document.getElementById("toggle_binario").addEventListener("click", function () {
     // Alternar visibilidad de IP
