@@ -121,17 +121,7 @@ th {
     overflow-x: visible;
 }
 
-.clase-azul {
-    color: #4FB4ED;
-    font-weight: bold;
-}
-
-.clase-naranja {
-    color: #ED884F;
-    font-weight: bold;
-}
-
-.clase-letra-azul {
-    color: #4FB4ED;
-    font-weight: bold;
-}
+.ip-red, .th-red { color: #007bff; font-weight: bold; }      /* Azul para red */
+.ip-subred, .th-subred { color: #28a745; font-weight: bold; }   /* Verde para subred */
+.ip-host, .th-host { color: #ffc107; font-weight: bold; }     /* Amarillo para host */
+.ip-inactivo { color: #bbb; font-style: italic; }   /* Gris para inactivo */

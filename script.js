@@ -112,6 +112,63 @@ function tipoRed(primer_octeto) {
     }
 }
 
+// Alternar entre decimal y binario
+document.getElementById("toggle_binario").addEventListener('click', function() {
+    const ipCompleta = document.getElementById("ip_completa");
+    const ipBinario = document.getElementById("ip_binario");
+    const mascaraDec = document.getElementById("mascara_subred");
+    const mascaraBin = document.getElementById("mascara_supred_binario");
+    const wildcardDec = document.getElementById("Wildcard");
+    const wildcardBin = document.getElementById("Wildcard_binario");
+    const redDec = document.getElementById("direccion_red");
+    const redBin = document.getElementById("direccion_red_binario");
+    const broadDec = document.getElementById("direccion_broadcast");
+    const broadBin = document.getElementById("direccion_broadcast_binario");
+
+    // Selecciona los th por id
+    const thRed = document.getElementById('th_red');
+    const thSubred = document.getElementById('th_subred');
+    const thHost = document.getElementById('th_host');
+
+    if (ipCompleta.style.display !== "none") {
+        ipCompleta.style.display = "none";
+        ipBinario.style.display = "";
+        mascaraDec.style.display = "none";
+        mascaraBin.style.display = "";
+        wildcardDec.style.display = "none";
+        wildcardBin.style.display = "";
+        redDec.style.display = "none";
+        redBin.style.display = "";
+        broadDec.style.display = "none";
+        broadBin.style.display = "";
+        this.innerText = "Ver en decimal";
+        if (thRed) thRed.classList.add('th-red');
+        if (thSubred) thSubred.classList.add('th-subred');
+        if (thHost) thHost.classList.add('th-host');
+    } else {
+        ipCompleta.style.display = "";
+        ipBinario.style.display = "none";
+        mascaraDec.style.display = "";
+        mascaraBin.style.display = "none";
+        wildcardDec.style.display = "";
+        wildcardBin.style.display = "none";
+        redDec.style.display = "";
+        redBin.style.display = "none";
+        broadDec.style.display = "";
+        broadBin.style.display = "none";
+        this.innerText = "Ver en binario";
+        if (thRed) thRed.classList.remove('th-red');
+        if (thSubred) thSubred.classList.remove('th-subred');
+        if (thHost) thHost.classList.remove('th-host');
+    }
+});
+
+function toBin(ip) {
+    return ip.split('.')
+        .map(o => ("00000000" + parseInt(o, 10).toString(2)).slice(-8))
+        .join('.');
+}
+
 function mostrarResultado(ip) {
     const formulario = document.getElementById("formulario");
     const resultado = document.getElementById("resultado");
@@ -126,7 +183,39 @@ function mostrarResultado(ip) {
 
     caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto);
     tipoRed(primer_octeto);
+
+    // Mostrar IP normal (sin colores)
     document.getElementById("ip_completa").innerText = ip;
+    document.getElementById("ip_completa").style.display = "";
+    document.getElementById("ip_binario").style.display = "none";
+    document.getElementById("toggle_binario").innerText = "Ver en binario";
+
+    // Mostrar IP en binario con colores según clase
+    let binarios = octetos.map(o => ("00000000" + parseInt(o).toString(2)).slice(-8));
+    let ipBinColoreada = "";
+    if (primer_octeto >= 0 && primer_octeto <= 127) { // Clase A
+        ipBinColoreada =
+            `<span class="ip-red">${binarios[0]}</span>.` +
+            `<span class="ip-subred">${binarios[1]}</span>.` +
+            `<span class="ip-subred">${binarios[2]}</span>.` +
+            `<span class="ip-host">${binarios[3]}</span>`;
+    } else if (primer_octeto >= 128 && primer_octeto <= 191) { // Clase B
+        ipBinColoreada =
+            `<span class="ip-red">${binarios[0]}</span>.` +
+            `<span class="ip-red">${binarios[1]}</span>.` +
+            `<span class="ip-subred">${binarios[2]}</span>.` +
+            `<span class="ip-host">${binarios[3]}</span>`;
+    } else if (primer_octeto >= 192 && primer_octeto <= 223) { // Clase C
+        ipBinColoreada =
+            `<span class="ip-red">${binarios[0]}</span>.` +
+            `<span class="ip-red">${binarios[1]}</span>.` +
+            `<span class="ip-red">${binarios[2]}</span>.` +
+            `<span class="ip-host">${binarios[3]}</span>`;
+    } else {
+        // Clase D o E: todo inactivo
+        ipBinColoreada = binarios.map(b => `<span class="ip-inactivo">${b}</span>`).join('.');
+    }
+    document.getElementById("ip_binario").innerHTML = ipBinColoreada;
 
     // Mostrar IP en hexadecimal
     const ipHex = octetos
@@ -136,6 +225,18 @@ function mostrarResultado(ip) {
         })
         .join('.');
     document.getElementById("ip_hexadecimal").innerText = ipHex;
+
+    // Máscara, wildcard, red y broadcast en binario
+    const mascara = document.getElementById("mascara_subred").innerText;
+    const wildcard = document.getElementById("Wildcard").innerText;
+    const red = document.getElementById("direccion_red").innerText;
+    const broadcast = document.getElementById("direccion_broadcast").innerText;
+
+    document.getElementById("mascara_supred_binario").innerText = mascara.match(/^\d+\.\d+\.\d+\.\d+$/) ? toBin(mascara) : "";
+    document.getElementById("Wildcard_binario").innerText = wildcard.match(/^\d+\.\d+\.\d+\.\d+$/) ? toBin(wildcard) : "";
+    document.getElementById("direccion_red_binario").innerText = red.match(/^\d+\.\d+\.\d+\.\d+$/) ? toBin(red) : "";
+    document.getElementById("direccion_broadcast_binario").innerText = broadcast.match(/^\d+\.\d+\.\d+\.\d+$/) ? toBin(broadcast) : "";
+
 
     // Calcular host mínimo y máximo
     const mascaraBits = parseInt(document.getElementById("mascara_personalizada").value);
