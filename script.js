@@ -126,6 +126,17 @@ function tipoRed(primer_octeto) {
     }
 }
 
+function mostrarIPHexadecimal(octetos) {
+    const ipHex = octetos
+        .map(octeto => {
+            let hex = parseInt(octeto).toString(16).toUpperCase();
+            return hex.length === 1 ? "0" + hex : hex;
+        })
+        .join('.');
+    document.getElementById("ip_hexadecimal").innerText = ipHex;
+}
+
+
 function mostrarResultado(ip) {
     const formulario = document.getElementById("formulario");
     const resultado = document.getElementById("resultado");
@@ -145,7 +156,6 @@ function mostrarResultado(ip) {
     document.getElementById("ip_binario").style.display = "none";
     document.getElementById("toggle_binario").innerText = "Ver en binario";
 
-    // Mostrar IP en binario con colores según clase
     let binarios = octetos.map(o => ("00000000" + parseInt(o).toString(2)).slice(-8));
     let ipBinColoreada = "";
     if (primer_octeto >= 0 && primer_octeto <= 127) { // Clase A
@@ -171,13 +181,7 @@ function mostrarResultado(ip) {
     }
     document.getElementById("ip_binario").innerHTML = ipBinColoreada;
 
-    const ipHex = octetos
-        .map(octeto => {
-            let hex = parseInt(octeto).toString(16).toUpperCase();
-            return hex.length === 1 ? "0" + hex : hex;
-        })
-        .join('.');
-    document.getElementById("ip_hexadecimal").innerText = ipHex;
+    mostrarIPHexadecimal(octetos);
 
     const mascaraBits = parseInt(document.getElementById("mascara_personalizada").value);
     if (mascaraBits >= 8 && mascaraBits <= 30) {
