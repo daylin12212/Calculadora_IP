@@ -39,7 +39,7 @@ label{
     color: #495057;
 }
 
-input#IP {
+input#IP, input#mascara_personalizada {
     width: 70%;
     padding: 12px;
     margin: 20px; 
@@ -49,7 +49,7 @@ input#IP {
     background-color: #f8f9fa; 
 }
 
-input#IP:focus {
+input#IP:focus, input#mascara_personalizada {
     border-color: #007bff; 
     outline: none;
 }

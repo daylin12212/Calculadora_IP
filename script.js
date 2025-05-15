@@ -23,6 +23,10 @@ document.getElementById("IP").addEventListener('input', () => {
     formatoIP(ip);
 });
 
+document.getElementById("mascara_personalizada").addEventListener('input', () => {
+    
+});
+
 document.getElementById("menu_principal").addEventListener('click', () => {
     window.location.href = "index.html";
 });
