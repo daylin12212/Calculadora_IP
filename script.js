@@ -120,17 +120,6 @@ function tipoRed(primer_octeto) {
     }
 }
 
-function ipHexadecimal(octetos) {
-    const ipHex = octetos
-    .map(octeto => {
-        let hex = parseInt(octeto).toString(16).toUpperCase();
-        return hex.length === 1 ? "0" + hex : hex;
-    })
-    .join('.');
-document.getElementById("ip_hexadecimal").innerText = ipHex;
-}
-
-
 function mostrarResultado(ip) {
     const formulario = document.getElementById("formulario");
     const resultado = document.getElementById("resultado");
@@ -144,10 +133,50 @@ function mostrarResultado(ip) {
 
     caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto);
     tipoRed(primer_octeto);
+
+    // Mostrar IP normal (sin colores)
     document.getElementById("ip_completa").innerText = ip;
+    document.getElementById("ip_completa").style.display = "";
+    document.getElementById("ip_binario").style.display = "none";
+    document.getElementById("toggle_binario").innerText = "Ver en binario";
 
-    ipHexadecimal(octetos)
+    // Mostrar IP en binario con colores según clase
+    let binarios = octetos.map(o => ("00000000" + parseInt(o).toString(2)).slice(-8));
+    let ipBinColoreada = "";
+    if (primer_octeto >= 0 && primer_octeto <= 127) { // Clase A
+        ipBinColoreada =
+            `<span class="ip-red">${binarios[0]}</span>.` +
+            `<span class="ip-subred">${binarios[1]}</span>.` +
+            `<span class="ip-subred">${binarios[2]}</span>.` +
+            `<span class="ip-host">${binarios[3]}</span>`;
+    } else if (primer_octeto >= 128 && primer_octeto <= 191) { // Clase B
+        ipBinColoreada =
+            `<span class="ip-red">${binarios[0]}</span>.` +
+            `<span class="ip-red">${binarios[1]}</span>.` +
+            `<span class="ip-subred">${binarios[2]}</span>.` +
+            `<span class="ip-host">${binarios[3]}</span>`;
+    } else if (primer_octeto >= 192 && primer_octeto <= 223) { // Clase C
+        ipBinColoreada =
+            `<span class="ip-red">${binarios[0]}</span>.` +
+            `<span class="ip-red">${binarios[1]}</span>.` +
+            `<span class="ip-red">${binarios[2]}</span>.` +
+            `<span class="ip-host">${binarios[3]}</span>`;
+    } else {
+        // Clase D o E: todo inactivo
+        ipBinColoreada = binarios.map(b => `<span class="ip-inactivo">${b}</span>`).join('.');
+    }
+    document.getElementById("ip_binario").innerHTML = ipBinColoreada;
 
+    // Mostrar IP en hexadecimal
+    const ipHex = octetos
+        .map(octeto => {
+            let hex = parseInt(octeto).toString(16).toUpperCase();
+            return hex.length === 1 ? "0" + hex : hex;
+        })
+        .join('.');
+    document.getElementById("ip_hexadecimal").innerText = ipHex;
+
+    // Calcular host mínimo y máximo
     const mascaraBits = parseInt(document.getElementById("mascara_personalizada").value);
     if (mascaraBits >= 8 && mascaraBits <= 30) {
         const ipNum = octetos.reduce((acc, val) => (acc << 8) + parseInt(val), 0);
