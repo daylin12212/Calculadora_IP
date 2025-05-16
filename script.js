@@ -295,4 +295,3 @@ document.getElementById("toggle_binario").addEventListener("click", function () 
 
     this.innerText = mostrarBinario ? "Ver en decimal" : "Ver en binario";
 });
-

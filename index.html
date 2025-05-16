@@ -8,13 +8,16 @@
         <link rel="icon" href="images/calculadora.png" type="i"/>
     </head>
     <body>
-        <h1>CalculaRedes</h1>  
+        <h1>CalculaRedes</h1>
         <form method="POST" id="formulario">
             <label for="IP">Introduzca la IP:</label>
             <input type="text" id="IP" maxlength="15" autocomplete="off" placeholder="" pattern="^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$" required>
             
             <label for="mascara_personalizada">Introducza una máscara personalizada:</label>
             <input type="number" id="mascara_personalizada" min="8" max="30" autocomplete="off" placeholder="Ej: 24">
+
+            <label for="mascara_vlsm">Introducza una máscara (VLSM):</label>
+            <input type="number" id="mascara_vlsm" autocomplete="off" placeholder="Ej...">
 
             <button id="calcular" class="boton">Calcular</button>
             

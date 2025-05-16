@@ -42,7 +42,7 @@ label{
     color: #495057;
 }
 
-input#IP, input#mascara_personalizada {
+input#IP, input#mascara_personalizada, input#mascara_vlsm {
     width: 70%;
     padding: 12px;
     margin: 20px; 
@@ -52,7 +52,7 @@ input#IP, input#mascara_personalizada {
     background-color: #f8f9fa; 
 }
 
-input#IP:focus, input#mascara_personalizada {
+input#IP:focus, input#mascara_personalizada, input#mascara_vlsm {
     border-color: #007bff; 
     outline: none;
 }
@@ -128,3 +128,4 @@ th {
 .ip-subred, .th-subred { color: #28a745; font-weight: bold; }   /* Verde para subred */
 .ip-host, .th-host { color: #ffc107; font-weight: bold; }     /* Amarillo para host */
 .ip-inactivo { color: #bbb; font-style: italic; }   /* Gris para inactivo */
+
