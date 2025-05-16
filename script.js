@@ -1,5 +1,7 @@
 const ip = document.getElementById("IP");
 
+const mascara_personalizada = document.getElementById("mascara_personalizada");
+
 let clase = "";
 let mascara = "";
 let wildcard = "";
@@ -8,8 +10,50 @@ let direccion_broadcast = "";
 let hosts = "";
 let numero_subredes = "";
 
+function validarIPyMascara() {
+    // Obtener los valores de los campos
+    const ip = document.getElementById('ip').value;
+    const bits = parseInt(document.getElementById('bits').value, 10);
+    const mascara = document.getElementById('mascara').value;
 
-function formatoIP(ip) {
+    // Convertir la IP a binario
+    const ipBin = ipToBin(ip);
+
+    // Verificar la máscara en formato CIDR (por ejemplo, /24)
+    if (mascara.startsWith('/')) {
+        const mascaraBits = parseInt(mascara.slice(1));
+
+        // Verificar que la máscara de subred coincida con los bits de la IP
+        const mascaraBin = '1'.repeat(mascaraBits) + '0'.repeat(32 - mascaraBits); // Máscara binaria
+        const ipRedBin = ipBin.substring(0, mascaraBits); // Solo los bits de la red
+
+        // Comprobar que los bits de la IP coincidan con los bits de la red según la máscara
+        if (ipRedBin !== mascaraBin.substring(0, mascaraBits)) {
+            alert('La IP no coincide con la máscara de subred.');
+            return false;
+        }
+    }
+
+    // Validar que los bits de host sean compatibles con la máscara
+    const bitsHost = 32 - parseInt(mascara.slice(1));
+    if (bits < 0 || bits > Math.pow(2, bitsHost) - 2) { // Restamos 2 para las direcciones de red y broadcast
+        alert('El número de bits para hosts no es válido para esta máscara de subred.');
+        return false;
+    }
+
+    // Si todo es correcto
+    alert('Todo es válido, puedes continuar con los cálculos.');
+    return true;
+}
+
+function ipToBin(ip) {
+    return ip.split('.')
+             .map(octeto => parseInt(octeto).toString(2).padStart(8, '0'))
+             .join('');
+}
+
+
+function formatoIP() {
     const pattern = ip.pattern;
     const patron = new RegExp(pattern);  
     const isValid = patron.test(ip.value);
@@ -48,34 +92,57 @@ document.getElementById("menu_principal").addEventListener('click', () => {
 });
 
 function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
-    let mascara_personalizada = document.getElementById("mascara_personalizada");
-    let mascaraValor = parseInt(mascara_personalizada.value, 10);
-    let bistHosts = 32 - mascaraValor;
-    let numero_subredes = 1;
+
+    let bistHosts = 32 - mascara_personalizada.value;
+
     let bits_predeterminados;
-    let clase = "", mascara = "", wildcard = "", direccion_red = "", direccion_broadcast = "", hosts = "";
+
+    let bits_prestados;
 
     if (primer_octeto >= 0 && primer_octeto <= 127) {
         clase = "Clase A";
-        bits_predeterminados = 8;
+        bits_predeterminados = 8; 
         mascara = "255.0.0.0";
         wildcard = "0.255.255.255";
         direccion_red = primer_octeto + ".0.0.0";
         direccion_broadcast = primer_octeto + ".255.255.255";
+
+
+        bits_prestados = mascara_personalizada.value - bits_predeterminados;
+        numero_subredes = Math.pow(2, bits_prestados);
+        
     } else if (primer_octeto >= 128 && primer_octeto <= 191) {
         clase = "Clase B";
-        bits_predeterminados = 16;
+        bits_predeterminados = 16; 
         mascara = "255.255.0.0";
         wildcard = "0.0.255.255";
         direccion_red = primer_octeto + "." + segundo_octeto + ".0.0";
         direccion_broadcast = primer_octeto + "." + segundo_octeto + ".255.255";
+
+        if(mascara_personalizada.value >= bits_predeterminados) {
+            bits_prestados = mascara_personalizada.value - bits_predeterminados;
+            numero_subredes = Math.pow(2, bits_prestados);
+        }
+        else {
+            numero_subredes = "ERROR";
+        }
+        
     } else if (primer_octeto >= 192 && primer_octeto <= 223) {
         clase = "Clase C";
-        bits_predeterminados = 24;
+        bits_predeterminados = 24; 
         mascara = "255.255.255.0";
         wildcard = "0.0.0.255";
         direccion_red = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + ".0";
         direccion_broadcast = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + ".255";
+        
+        if(mascara_personalizada.value >= bits_predeterminados) {
+            bits_prestados = mascara_personalizada.value - bits_predeterminados;
+            numero_subredes = Math.pow(2, bits_prestados);
+        }
+        else {
+            numero_subredes = "ERROR";
+        }
+        
     } else if (primer_octeto >= 224 && primer_octeto <= 239) {
         clase = "Clase D";
         mascara = "No tiene máscara";
@@ -84,6 +151,7 @@ function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
         direccion_broadcast = "No tiene dirección de broadcast";
         hosts = "No tiene número de hosts";
         numero_subredes = "No tiene número subredes";
+
     } else if (primer_octeto >= 240 && primer_octeto <= 255) {
         clase = "Clase E";
         mascara = "No tiene máscara";
@@ -94,15 +162,7 @@ function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
         numero_subredes = "No tiene número subredes";
     }
 
-    // Cálculo correcto de subredes solo si la clase es A, B o C
-    if (clase === "Clase A" || clase === "Clase B" || clase === "Clase C") {
-        if (mascaraValor > bits_predeterminados) {
-            numero_subredes = Math.pow(2, mascaraValor - bits_predeterminados);
-        } else {
-            numero_subredes = 1;
-        }
-        hosts = Math.pow(2, bistHosts) - 2;
-    }
+    hosts = Math.pow(2, bistHosts) - 2;
 
     document.getElementById("clase_red").innerText = clase;
     document.getElementById("mascara_subred").innerText = mascara;
@@ -203,43 +263,6 @@ function mostrarResultado(ip) {
     } else {
         document.getElementById("host_minimo").innerText = "N/A";
         document.getElementById("host_maximo").innerText = "N/A";
-    }
-
-    // Elimina los contenedores previos si existen
-    const tablaResultados = document.querySelector("#resultado table");
-    const filasContenedores = document.querySelectorAll(".fila-contenedores");
-    filasContenedores.forEach(fila => fila.remove());
-
-    // Obtén el número de subredes (asegúrate de que sea un número válido)
-    let numSubredes = parseInt(document.getElementById("numero_subredes").innerText);
-    if (isNaN(numSubredes) || numSubredes < 1) numSubredes = 1;
-
-    // Limita el número de subredes a mostrar a 8
-    numSubredes = Math.min(numSubredes, 8);
-
-    // Por cada subred, añade una fila con 3 contenedores
-    for (let i = 0; i < numSubredes; i++) {
-        const tr = document.createElement("tr");
-        tr.className = "fila-contenedores";
-        const td = document.createElement("td");
-        td.colSpan = 2;
-
-        const div = document.createElement("div");
-        div.className = "contenedores-extra";
-
-        for (let j = 1; j <= 3; j++) {
-            const cont = document.createElement("div");
-            cont.className = "contenedor";
-            cont.innerHTML = `
-                <h3>Contenedor ${j} (Subred ${i + 1})</h3>
-                <p>Contenido adicional ${j} para subred ${i + 1}.</p>
-            `;
-            div.appendChild(cont);
-        }
-
-        td.appendChild(div);
-        tr.appendChild(td);
-        tablaResultados.appendChild(tr);
     }
 }
 
