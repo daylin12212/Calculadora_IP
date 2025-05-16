@@ -80,6 +80,16 @@ function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
         return wildcardFinal;
     }
 
+    // Función para calcular la dirección de broadcast
+    function calcularDireccionBroadcast(direccionRed, wildcard) {
+        let direccionRedOctetos = direccionRed.split('.').map(Number);
+        let wildcardOctetos = wildcard.split('.').map(Number);
+
+        let direccionBroadcastOctetos = direccionRedOctetos.map((octeto, index) => octeto | wildcardOctetos[index]);
+
+        return direccionBroadcastOctetos.join('.');
+    }
+
     // Condicionales para clases A, B y C
     if (primer_octeto >= 0 && primer_octeto <= 127) {
         clase = "Clase A";
@@ -87,7 +97,7 @@ function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
         mascara = calcularMascara(mascara_personalizada.value);
         wildcard = calcularWildcard(mascara_personalizada.value);
         direccion_red = primer_octeto + ".0.0.0";
-        direccion_broadcast = primer_octeto + ".255.255.255";
+        direccion_broadcast = calcularDireccionBroadcast(direccion_red, wildcard); // Cálculo dinámico de la dirección de broadcast
 
         if (mascara_personalizada.value >= bits_predeterminados) {
             bits_prestados = mascara_personalizada.value - bits_predeterminados;
@@ -102,7 +112,7 @@ function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
         mascara = calcularMascara(mascara_personalizada.value);
         wildcard = calcularWildcard(mascara_personalizada.value);
         direccion_red = primer_octeto + "." + segundo_octeto + ".0.0";
-        direccion_broadcast = primer_octeto + "." + segundo_octeto + ".255.255";
+        direccion_broadcast = calcularDireccionBroadcast(direccion_red, wildcard); // Cálculo dinámico de la dirección de broadcast
 
         if (mascara_personalizada.value >= bits_predeterminados) {
             bits_prestados = mascara_personalizada.value - bits_predeterminados;
@@ -117,7 +127,7 @@ function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
         mascara = calcularMascara(mascara_personalizada.value);
         wildcard = calcularWildcard(mascara_personalizada.value);
         direccion_red = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + ".0";
-        direccion_broadcast = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + ".255";
+        direccion_broadcast = calcularDireccionBroadcast(direccion_red, wildcard); // Cálculo dinámico de la dirección de broadcast
 
         if (mascara_personalizada.value >= bits_predeterminados) {
             bits_prestados = mascara_personalizada.value - bits_predeterminados;
@@ -155,6 +165,7 @@ function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
     document.getElementById("numero_hosts").innerText = hosts;
     document.getElementById("numero_subredes").innerText = numero_subredes;
 }
+
 
 
 
