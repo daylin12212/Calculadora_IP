@@ -107,9 +107,10 @@ th, td {
 th {
     font-weight: bold;
     background-color: #e9ecef;
-    position: sticky;
-    top: 0;
-    z-index: 2;
+    /* Elimina sticky para que no se quede fijo al hacer scroll */
+    position: static;
+    top: auto;
+    z-index: auto;
 }
 
 #resultado table tr:nth-child(even) {
