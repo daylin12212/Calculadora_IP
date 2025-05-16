@@ -165,7 +165,7 @@ function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
     document.getElementById("numero_hosts").innerText = hosts;
     document.getElementById("numero_subredes").innerText = numero_subredes;
 }
-
+ 
 
 
 
