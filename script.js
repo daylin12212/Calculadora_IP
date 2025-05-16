@@ -10,48 +10,6 @@ let direccion_broadcast = "";
 let hosts = "";
 let numero_subredes = "";
 
-function validarIPyMascara() {
-    // Obtener los valores de los campos
-    const ip = document.getElementById('ip').value;
-    const bits = parseInt(document.getElementById('bits').value, 10);
-    const mascara = document.getElementById('mascara').value;
-
-    // Convertir la IP a binario
-    const ipBin = ipToBin(ip);
-
-    // Verificar la máscara en formato CIDR (por ejemplo, /24)
-    if (mascara.startsWith('/')) {
-        const mascaraBits = parseInt(mascara.slice(1));
-
-        // Verificar que la máscara de subred coincida con los bits de la IP
-        const mascaraBin = '1'.repeat(mascaraBits) + '0'.repeat(32 - mascaraBits); // Máscara binaria
-        const ipRedBin = ipBin.substring(0, mascaraBits); // Solo los bits de la red
-
-        // Comprobar que los bits de la IP coincidan con los bits de la red según la máscara
-        if (ipRedBin !== mascaraBin.substring(0, mascaraBits)) {
-            alert('La IP no coincide con la máscara de subred.');
-            return false;
-        }
-    }
-
-    // Validar que los bits de host sean compatibles con la máscara
-    const bitsHost = 32 - parseInt(mascara.slice(1));
-    if (bits < 0 || bits > Math.pow(2, bitsHost) - 2) { // Restamos 2 para las direcciones de red y broadcast
-        alert('El número de bits para hosts no es válido para esta máscara de subred.');
-        return false;
-    }
-
-    // Si todo es correcto
-    alert('Todo es válido, puedes continuar con los cálculos.');
-    return true;
-}
-
-function ipToBin(ip) {
-    return ip.split('.')
-             .map(octeto => parseInt(octeto).toString(2).padStart(8, '0'))
-             .join('');
-}
-
 
 function formatoIP() {
     const pattern = ip.pattern;
@@ -107,9 +65,14 @@ function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
         direccion_red = primer_octeto + ".0.0.0";
         direccion_broadcast = primer_octeto + ".255.255.255";
 
-
-        bits_prestados = mascara_personalizada.value - bits_predeterminados;
-        numero_subredes = Math.pow(2, bits_prestados);
+        if(mascara_personalizada.value >= bits_predeterminados) {
+            bits_prestados = mascara_personalizada.value - bits_predeterminados;
+            numero_subredes = Math.pow(2, bits_prestados);
+        }
+        else {
+            numero_subredes = "ERROR";
+        }
+        
         
     } else if (primer_octeto >= 128 && primer_octeto <= 191) {
         clase = "Clase B";
