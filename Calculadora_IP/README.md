@@ -70,26 +70,3 @@ Proyecto "CalcuRedes" en JavaScript (4 sesiones) para practias 1ºDAW
 
  *Ideas de mejora futura:*
  - [Mejorar la legibilidad y la modulación del código]
-
-  ## sesion 4
-
-  **Resumen:**
-[Hemos implementado mas funcionalidades]
-
-**Dificultades encontradas**
-- [Dificultad 1: no conseguimos hacer una validacion de la seccion 4]
-- [Dificultad 2: No conseguimos hacer la conversión a binario ni mostrar los hosts adecuadamente]
-
-**Soluciones aplicadas:**
-- [Solución 1: Se investigaron diferentes fuentes hasta conseguir realizar las conversiones y los calculos adecuadamente]
-
-**Fuentes consultadas**
-- [https://chatgpt.com/]
-- [https://copilot.microsoft.com/chats/TD3GRcBEJtP67GRkjVevj]
- 
- **Decisiones tecnicas**
- - [Mantenemos un formato parecido a la sesión 1 e intentamos implementar el código reutilizando el mismo lo máximo posible]
- - [Implementación de un botón para mostrar o ocultar la informacion de las subredes]
-
- *Ideas de mejora futura:*
- - [Mejorar la legibilidad y la modulación del código]

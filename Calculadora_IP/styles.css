@@ -7,45 +7,32 @@ body {
     color: #343a40; 
     margin: 0;
     padding: 0;
-    min-height: 100vh;
-    width: 100vw;
-    overflow-x: auto; /* Permite scroll horizontal si es necesario */
-    overflow-y: auto; /* Permite scroll vertical */
-    display: block;   /* Cambia de flex a block para permitir scroll */
-    padding-top: 60px; /* Deja espacio para el h1 fijo */
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    flex-direction: column;
+    text-align: center; 
 }
 
 h1 {
     font-size: 28px;
     color: white;
     margin-bottom: 20px; 
-    margin-top: 0;
-    text-align: center;
-    width: 100vw;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10;
-    background: rgba(0,0,0,0.25); /* Opcional: fondo semitransparente para mejor visibilidad */
-    padding: 16px 0 8px 0;
+    margin-top: 0; 
 }
 
-#formulario, #resultado {
-    background-color:#aec7e1; 
+#formulario, #resultado{
+    background-color: #ffffff; 
     padding: 20px;
     border-radius: 10px; 
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
-    width: 100%;
-    max-width: 900px;
-    margin: 32px auto 0 auto; /* Centrado y separación arriba */
+    width: 280px;
 }
 
-#formulario {
-    max-width: 400px; /* Más pequeña que el resultado */
-    margin: 32px auto 0 auto; /* Centrado y separación arriba */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+#resultado {
+    max-width: 900px;
+    width: 100%;
 }
 
 label{
@@ -55,7 +42,7 @@ label{
     color: #495057;
 }
 
-input#IP, input#mascara_personalizada, input#mascara_vlsm {
+input#IP, input#mascara_personalizada {
     width: 70%;
     padding: 12px;
     margin: 20px; 
@@ -65,7 +52,7 @@ input#IP, input#mascara_personalizada, input#mascara_vlsm {
     background-color: #f8f9fa; 
 }
 
-input#IP:focus, input#mascara_personalizada, input#mascara_vlsm {
+input#IP:focus, input#mascara_personalizada {
     border-color: #007bff; 
     outline: none;
 }
@@ -107,10 +94,9 @@ th, td {
 th {
     font-weight: bold;
     background-color: #e9ecef;
-    /* Elimina sticky para que no se quede fijo al hacer scroll */
-    position: static;
-    top: auto;
-    z-index: auto;
+    position: sticky;
+    top: 0;
+    z-index: 2;
 }
 
 #resultado table tr:nth-child(even) {
@@ -142,19 +128,3 @@ th {
 .ip-subred, .th-subred { color: #28a745; font-weight: bold; }   /* Verde para subred */
 .ip-host, .th-host { color: #ffc107; font-weight: bold; }     /* Amarillo para host */
 .ip-inactivo { color: #bbb; font-style: italic; }   /* Gris para inactivo */
-
-.contenedores-extra {
-    display: flex;
-    gap: 6px;           /* Menos separación entre los contenedores */
-    margin-top: 8px;    /* Menos separación con la tabla */
-    margin-bottom: 32px; /* Más separación con el botón de menú principal */
-}
-
-.contenedor {
-    flex: 1;
-    border: 1px solid #ccc;
-    padding: 16px;
-    border-radius: 8px;
-    background: #fff;
-}
-

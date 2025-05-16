@@ -1,7 +1,5 @@
 const ip = document.getElementById("IP");
 
-const mascara_personalizada = document.getElementById("mascara_personalizada");
-
 let clase = "";
 let mascara = "";
 let wildcard = "";
@@ -11,7 +9,7 @@ let hosts = "";
 let numero_subredes = "";
 
 
-function formatoIP() {
+function formatoIP(ip) {
     const pattern = ip.pattern;
     const patron = new RegExp(pattern);  
     const isValid = patron.test(ip.value);
@@ -49,100 +47,56 @@ document.getElementById("menu_principal").addEventListener('click', () => {
     window.location.href = "index.html";
 });
 
+function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto, clase, mascara, wildcard, direccion_red, direccion_broadcast, hosts) {
+    let mascara_personalizada = document.getElementById("mascara_personalizada");
 
-
-function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
 
     let bistHosts = 32 - mascara_personalizada.value;
+    let numero_subredes;
+
     let bits_predeterminados;
-    let bits_prestados;
-    let clase, mascara, wildcard, direccion_red, direccion_broadcast, numero_subredes;
 
-    // Función para calcular la máscara
-    function calcularMascara(bits) {
-        let mascaraBinaria = '1'.repeat(bits) + '0'.repeat(32 - bits);
-        let mascaraFinal = '';
-        for (let i = 0; i < 4; i++) {
-            mascaraFinal += parseInt(mascaraBinaria.substr(i * 8, 8), 2);
-            if (i < 3) mascaraFinal += '.';
-        }
-        return mascaraFinal;
-    }
-
-    // Función para calcular la wildcard
-    function calcularWildcard(bits) {
-        let wildcardBinaria = '0'.repeat(bits) + '1'.repeat(32 - bits);
-        let wildcardFinal = '';
-        for (let i = 0; i < 4; i++) {
-            wildcardFinal += parseInt(wildcardBinaria.substr(i * 8, 8), 2);
-            if (i < 3) wildcardFinal += '.';
-        }
-        return wildcardFinal;
-    }
-
-    // Función para calcular la dirección de broadcast
-    function calcularDireccionBroadcast(direccionRed, wildcard) {
-        let direccionRedOctetos = direccionRed.split('.').map(Number);
-        let wildcardOctetos = wildcard.split('.').map(Number);
-
-        let direccionBroadcastOctetos = direccionRedOctetos.map((octeto, index) => octeto | wildcardOctetos[index]);
-
-        return direccionBroadcastOctetos.join('.');
-    }
-
-    // Condicionales para clases A, B y C
     if (primer_octeto >= 0 && primer_octeto <= 127) {
         clase = "Clase A";
-        bits_predeterminados = 8;
-        mascara = calcularMascara(mascara_personalizada.value);
-        wildcard = calcularWildcard(mascara_personalizada.value);
+        bits_predeterminados = 8; 
+        mascara = "255.0.0.0";
+        wildcard = "0.255.255.255";
         direccion_red = primer_octeto + ".0.0.0";
-        direccion_broadcast = calcularDireccionBroadcast(direccion_red, wildcard); // Cálculo dinámico de la dirección de broadcast
+        direccion_broadcast = primer_octeto + ".255.255.255";
 
-        if (mascara_personalizada.value >= bits_predeterminados) {
-            bits_prestados = mascara_personalizada.value - bits_predeterminados;
-            numero_subredes = Math.pow(2, bits_prestados);
-        } else {
-            numero_subredes = "ERROR";
-        }
-
+        let bist_prestadosA = mascara_personalizada.value - bits_predeterminados;
+        numero_subredes = Math.pow(2, bist_prestadosA);
+        
     } else if (primer_octeto >= 128 && primer_octeto <= 191) {
         clase = "Clase B";
-        bits_predeterminados = 16;
-        mascara = calcularMascara(mascara_personalizada.value);
-        wildcard = calcularWildcard(mascara_personalizada.value);
+        bits_predeterminados = 16; 
+        mascara = "255.255.0.0";
+        wildcard = "0.0.255.255";
         direccion_red = primer_octeto + "." + segundo_octeto + ".0.0";
-        direccion_broadcast = calcularDireccionBroadcast(direccion_red, wildcard); // Cálculo dinámico de la dirección de broadcast
-
-        if (mascara_personalizada.value >= bits_predeterminados) {
-            bits_prestados = mascara_personalizada.value - bits_predeterminados;
-            numero_subredes = Math.pow(2, bits_prestados);
-        } else {
-            numero_subredes = "ERROR";
-        }
-
+        direccion_broadcast = primer_octeto + "." + segundo_octeto + ".255.255";
+        
+        let bist_prestadosB = mascara_personalizada.value - bits_predeterminados;
+        numero_subredes = Math.pow(2, bist_prestadosB);
+        
     } else if (primer_octeto >= 192 && primer_octeto <= 223) {
         clase = "Clase C";
-        bits_predeterminados = 24;
-        mascara = calcularMascara(mascara_personalizada.value);
-        wildcard = calcularWildcard(mascara_personalizada.value);
+        bits_predeterminados = 24; 
+        mascara = "255.255.255.0";
+        wildcard = "0.0.0.255";
         direccion_red = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + ".0";
-        direccion_broadcast = calcularDireccionBroadcast(direccion_red, wildcard); // Cálculo dinámico de la dirección de broadcast
-
-        if (mascara_personalizada.value >= bits_predeterminados) {
-            bits_prestados = mascara_personalizada.value - bits_predeterminados;
-            numero_subredes = Math.pow(2, bits_prestados);
-        } else {
-            numero_subredes = "ERROR";
-        }
-
+        direccion_broadcast = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + ".255";
+        
+        let bist_prestadosC = mascara_personalizada.value - bits_predeterminados;
+        numero_subredes = Math.pow(2, bist_prestadosC);
+        
     } else if (primer_octeto >= 224 && primer_octeto <= 239) {
         clase = "Clase D";
         mascara = "No tiene máscara";
         wildcard = "No tiene wildcard";
         direccion_red = "No tiene dirección de red";
         direccion_broadcast = "No tiene dirección de broadcast";
-        numero_subredes = "No tiene número de subredes";
+        hosts = "No tiene número de hosts";
+        numero_subredes = "No tiene número subredes";
 
     } else if (primer_octeto >= 240 && primer_octeto <= 255) {
         clase = "Clase E";
@@ -150,13 +104,12 @@ function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
         wildcard = "No tiene wildcard";
         direccion_red = "No tiene dirección de red";
         direccion_broadcast = "No tiene dirección de broadcast";
-        numero_subredes = "No tiene número de subredes";
+        hosts = "No tiene número de hosts";
+        numero_subredes = "No tiene número subredes";
     }
 
-    // Cálculo de hosts
-    let hosts = Math.pow(2, bistHosts) - 2;
+    hosts = Math.pow(2, bistHosts) - 2;
 
-    // Asignación de resultados en el HTML
     document.getElementById("clase_red").innerText = clase;
     document.getElementById("mascara_subred").innerText = mascara;
     document.getElementById("Wildcard").innerText = wildcard;
@@ -165,12 +118,6 @@ function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
     document.getElementById("numero_hosts").innerText = hosts;
     document.getElementById("numero_subredes").innerText = numero_subredes;
 }
- 
-
-
-
-
-
 
 function tipoRed(primer_octeto) {
     if (primer_octeto == 10 || primer_octeto == 192 || primer_octeto == 172) {
@@ -348,3 +295,4 @@ document.getElementById("toggle_binario").addEventListener("click", function () 
 
     this.innerText = mostrarBinario ? "Ver en decimal" : "Ver en binario";
 });
+
