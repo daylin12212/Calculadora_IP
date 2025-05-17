@@ -10,14 +10,7 @@ let direccion_broadcast = "";
 let hosts = "";
 let numero_subredes = "";
 
-function validacionSubred() {
-    
 
-<<<<<<< Updated upstream
-=======
-}
-
->>>>>>> Stashed changes
 function formatoIP() {
     const pattern = ip.pattern;
     const patron = new RegExp(pattern);  
@@ -56,24 +49,13 @@ document.getElementById("menu_principal").addEventListener('click', () => {
     window.location.href = "index.html";
 });
 
-<<<<<<< Updated upstream
-=======
-function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
-   // let mascara_personalizada = document.getElementById("mascara_personalizada");
->>>>>>> Stashed changes
-
 
 function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
 
     let bistHosts = 32 - mascara_personalizada.value;
-<<<<<<< Updated upstream
-=======
-
-
->>>>>>> Stashed changes
     let bits_predeterminados;
     let bits_prestados;
-    let clase, mascara, wildcard, direccion_red, direccion_broadcast, numero_subredes;
+
 
     // Función para calcular la máscara
     function calcularMascara(bits) {
@@ -114,7 +96,7 @@ function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
         mascara = calcularMascara(mascara_personalizada.value);
         wildcard = calcularWildcard(mascara_personalizada.value);
         direccion_red = primer_octeto + ".0.0.0";
-        direccion_broadcast = calcularDireccionBroadcast(direccion_red, wildcard); // Cálculo dinámico de la dirección de broadcast
+        direccion_broadcast = calcularDireccionBroadcast(direccion_red, wildcard); 
 
         if (mascara_personalizada.value >= bits_predeterminados) {
             bits_prestados = mascara_personalizada.value - bits_predeterminados;
@@ -170,7 +152,6 @@ function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
         numero_subredes = "No tiene número de subredes";
     }
 
-    // Cálculo de hosts
     let hosts = Math.pow(2, bistHosts) - 2;
 
     // Asignación de resultados en el HTML
@@ -183,11 +164,6 @@ function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
     document.getElementById("numero_subredes").innerText = numero_subredes;
 }
  
-
-
-
-
-
 
 function tipoRed(primer_octeto) {
     if (primer_octeto == 10 || primer_octeto == 192 || primer_octeto == 172) {
