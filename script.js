@@ -11,6 +11,39 @@ let hosts = "";
 let numero_subredes = "";
 
 
+function convertirMascaraVLSM(mascaraIP) {
+    const octetos = mascaraIP.split('.');
+    const binario = octetos.map(octeto => {
+        return parseInt(octeto).toString(2).padStart(8, '0');
+    }).join('');
+    const numeroBits = binario.split('1').length - 1;
+    return numeroBits; // Devuelve el número de bits
+}
+
+// Función para validar la máscara VLSM según la máscara CIDR
+function validarMascaraVLSM() {
+    const mascaraCIDR = parseInt(document.getElementById("mascara_personalizada").value); // Máscara CIDR del input
+    const mascaraVLSM = document.getElementById("mascara_vlsm").value; // Máscara VLSM del input
+
+    // Si no se ha ingresado una máscara VLSM válida, detenemos la validación
+    if (!mascaraVLSM) {
+        alert("Por favor ingrese una máscara VLSM.");
+        return false;
+    }
+
+    // Convertir la máscara VLSM a formato binario y calcular el número de bits
+    const numeroBitsVLSM = convertirMascaraVLSM(mascaraVLSM);
+
+    // Validar que la máscara VLSM no sea mayor que la máscara CIDR
+    if (numeroBitsVLSM > mascaraCIDR) {
+        alert(`La máscara VLSM no puede ser mayor que la máscara CIDR (${mascaraCIDR} bits).`);
+        return false;
+    }
+
+    return true; // La máscara VLSM es válida
+}
+
+
 function formatoIP() {
     const pattern = ip.pattern;
     const patron = new RegExp(pattern);  
@@ -260,6 +293,10 @@ function mostrarResultado(ip) {
 
 document.getElementById("formulario").addEventListener('submit', function(event) {
     event.preventDefault();
+
+    if (!validarMascaraVLSM()) {
+        return; // Si la validación falla, no se procede con el cálculo
+    }
     const ip = document.getElementById("IP").value;
     mostrarResultado(ip);
 });
