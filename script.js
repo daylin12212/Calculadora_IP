@@ -10,7 +10,14 @@ let direccion_broadcast = "";
 let hosts = "";
 let numero_subredes = "";
 
+function validacionSubred() {
+    
 
+<<<<<<< Updated upstream
+=======
+}
+
+>>>>>>> Stashed changes
 function formatoIP() {
     const pattern = ip.pattern;
     const patron = new RegExp(pattern);  
@@ -49,11 +56,21 @@ document.getElementById("menu_principal").addEventListener('click', () => {
     window.location.href = "index.html";
 });
 
+<<<<<<< Updated upstream
+=======
+function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
+   // let mascara_personalizada = document.getElementById("mascara_personalizada");
+>>>>>>> Stashed changes
 
 
 function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
 
     let bistHosts = 32 - mascara_personalizada.value;
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
     let bits_predeterminados;
     let bits_prestados;
     let clase, mascara, wildcard, direccion_red, direccion_broadcast, numero_subredes;
