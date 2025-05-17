@@ -7,42 +7,56 @@ body {
     color: #343a40; 
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
-    height: 100vh; 
-    flex-direction: column;
-    text-align: center; 
+    min-height: 100vh;
+    width: 100vw;
+    overflow-x: auto; /* Permite scroll horizontal si es necesario */
+    overflow-y: auto; /* Permite scroll vertical */
+    display: block;   /* Cambia de flex a block para permitir scroll */
+    padding-top: 60px; /* Deja espacio para el h1 fijo */
 }
 
 h1 {
     font-size: 28px;
     color: white;
     margin-bottom: 20px; 
-    margin-top: 0; 
+    margin-top: 0;
+    text-align: center;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background: rgba(0,0,0,0.25); /* Fondo semitransparente para mejor visibilidad */
+    padding: 16px 0 8px 0;
 }
 
-#formulario, #resultado{
-    background-color: #ffffff; 
+/* Estilos para formulario y resultado */
+#formulario, #resultado {
+    background-color:#aec7e1; 
     padding: 20px;
     border-radius: 10px; 
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
-    width: 280px;
-}
-
-#resultado {
-    max-width: 900px;
     width: 100%;
+    max-width: 900px;
+    margin: 32px auto 0 auto; /* Centrado y separación arriba */
 }
 
-label{
+#formulario {
+    max-width: 400px; /* Más pequeña que el resultado */
+    margin: 32px auto 0 auto; /* Centrado y separación arriba */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
     font-size: 14px;
     margin-bottom: 6px;
     display: block;
     color: #495057;
 }
 
-input#IP, input#mascara_personalizada {
+input#IP, input#mascara_personalizada, input#mascara_vlsm {
     width: 70%;
     padding: 12px;
     margin: 20px; 
@@ -52,7 +66,7 @@ input#IP, input#mascara_personalizada {
     background-color: #f8f9fa; 
 }
 
-input#IP:focus, input#mascara_personalizada {
+input#IP:focus, input#mascara_personalizada:focus, input#mascara_vlsm:focus {
     border-color: #007bff; 
     outline: none;
 }
@@ -67,17 +81,20 @@ button.boton {
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease; 
+    margin-bottom: 10px;
 }
 
 button.boton:hover {
     background-color: #0056b3; 
 }
 
+/* Estilos para tablas de resultados principales */
 #resultado table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 6px;
     table-layout: fixed;
+    margin-bottom: 20px;
 }
 
 th, td {
@@ -94,21 +111,22 @@ th, td {
 th {
     font-weight: bold;
     background-color: #e9ecef;
-    position: sticky;
-    top: 0;
-    z-index: 2;
+    position: static;
+    top: auto;
+    z-index: auto;
 }
 
 #resultado table tr:nth-child(even) {
     background-color: #f8f9fa;
 }
 
+/* Estilos para formatos binarios */
 #ip_binario,
 #mascara_supred_binario,
 #Wildcard_binario,
 #direccion_red_binario,
 #direccion_broadcast_binario {
-    display: block;
+    display: none;
     width: 100%;
     text-align: center;
     font-family: 'Consolas', 'Courier New', monospace;
@@ -124,7 +142,231 @@ th {
     overflow-x: visible;
 }
 
-.ip-red, .th-red { color: #007bff; font-weight: bold; }      /* Azul para red */
-.ip-subred, .th-subred { color: #28a745; font-weight: bold; }   /* Verde para subred */
+/* Colores para la representación binaria */
+.ip-red, .th-red { color: #007bff; font-weight: bold; }       /* Azul para red */
+.ip-subred, .th-subred { color: #28a745; font-weight: bold; } /* Verde para subred */
 .ip-host, .th-host { color: #ffc107; font-weight: bold; }     /* Amarillo para host */
-.ip-inactivo { color: #bbb; font-style: italic; }   /* Gris para inactivo */
+.ip-inactivo { color: #bbb; font-style: italic; }             /* Gris para inactivo */
+
+/* Estilos para el botón de mostrar subredes */
+.botones-extra {
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* Modificación para colocar las tablas lado a lado */
+.contenedor-subredes {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    flex-direction: row; /* Asegura que estén en una fila */
+}
+
+/* Ajustar el contenedor izquierdo (más pequeño) */
+.contenedor-izquierdo {
+    flex: 1; /* Proporción más pequeña */
+    min-width: 250px;
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 8px;
+    display: block; /* Asegura que se muestre cuando corresponda */
+    overflow-y: auto;
+    max-height: 500px;
+}
+
+/* Ajustar el contenedor derecho (más grande) */
+.contenedor-derecho {
+    flex: 2; /* Proporción más grande */
+    min-width: 300px;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: block; /* Asegura que se muestre cuando corresponda */
+    overflow-y: auto;
+    max-height: 500px;
+}
+
+/* Asegurarse de que el contenedor principal se muestre correctamente */
+#contenedor-tablas-subredes {
+    width: 100%;
+    max-width: 900px;
+    margin: 20px auto;
+}
+
+/* Encabezados de secciones */
+.contenedor-izquierdo h3,
+.contenedor-derecho h3 {
+    color: #007bff;
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+/* Estilo para elementos de la lista de subredes */
+#lista-subredes {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.subred-item {
+    background: #f8f9fa;
+    padding: 12px;
+    border-radius: 6px;
+    border-left: 4px solid #007bff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.subred-item:hover {
+    background: #e9ecef;
+    transform: translateX(2px);
+}
+
+.subred-item.activa {
+    background: #e7f1ff;
+    border-left-color: #0056b3;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.subred-item h4 {
+    margin: 0 0 5px 0;
+    color: #333;
+    font-size: 16px;
+}
+
+.subred-item p {
+    margin: 3px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Mensaje cuando no hay subred seleccionada */
+.mensaje-seleccion {
+    color: #6c757d;
+    font-style: italic;
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* Detalles de cada subred seleccionada */
+.detalle-item {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.detalle-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.etiqueta {
+    font-weight: 600;
+    color: #444;
+    font-size: 14px;
+}
+
+.valor {
+    color: #000;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    text-align: right;
+    word-break: break-all;
+    margin-left: 10px;
+    background-color: #f8f9fa;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+/* Mensaje para subredes adicionales */
+.mensaje-extra {
+    text-align: center;
+    margin-top: 15px;
+    padding: 8px;
+    font-style: italic;
+    color: #6c757d;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+
+/* Estilos responsivos para pantallas pequeñas */
+@media (max-width: 768px) {
+    .contenedor-subredes {
+        flex-direction: column;
+    }
+    
+    .contenedor-izquierdo,
+    .contenedor-derecho {
+        max-height: 300px;
+    }
+    
+    #formulario, #resultado {
+        width: 90%;
+        margin: 32px auto 0 auto;
+    }
+    
+    #toggle_binario, #toggle_subredes {
+        font-size: 14px;
+    }
+}
+
+/* Modo oscuro (opcional) */
+@media (prefers-color-scheme: dark) {
+    .contenedor-izquierdo,
+    .contenedor-derecho {
+        background-color: #2d2d2d;
+        color: #e0e0e0;
+    }
+    
+    .contenedor-izquierdo h3,
+    .contenedor-derecho h3 {
+        color: #6ea8fe;
+        border-color: #444;
+    }
+    
+    .subred-item {
+        background: #3a3a3a;
+        border-left-color: #0d6efd;
+    }
+    
+    .subred-item:hover {
+        background: #444;
+    }
+    
+    .subred-item.activa {
+        background: #1a3a6a;
+    }
+    
+    .etiqueta {
+        color: #bbb;
+    }
+    
+    .valor {
+        color: #fff;
+        background-color: #3a3a3a;
+    }
+    
+    .mensaje-seleccion,
+    .mensaje-extra {
+        color: #999;
+        background-color: #3a3a3a;
+    }
+    
+    th, td {
+        background-color: #3a3a3a;
+        color: #e0e0e0;
+        border-color: #444;
+    }
+    
+    th {
+        background-color: #2d2d2d;
+    }
+}

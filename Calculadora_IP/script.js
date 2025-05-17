@@ -47,35 +47,48 @@ document.getElementById("menu_principal").addEventListener('click', () => {
     window.location.href = "index.html";
 });
 
-function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
+function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto, clase, mascara, wildcard, direccion_red, direccion_broadcast, hosts) {
     let mascara_personalizada = document.getElementById("mascara_personalizada");
-    let mascaraValor = parseInt(mascara_personalizada.value, 10);
-    let bistHosts = 32 - mascaraValor;
-    let numero_subredes = 1;
+
+
+    let bistHosts = 32 - mascara_personalizada.value;
+    let numero_subredes;
+
     let bits_predeterminados;
-    let clase = "", mascara = "", wildcard = "", direccion_red = "", direccion_broadcast = "", hosts = "";
 
     if (primer_octeto >= 0 && primer_octeto <= 127) {
         clase = "Clase A";
-        bits_predeterminados = 8;
+        bits_predeterminados = 8; 
         mascara = "255.0.0.0";
         wildcard = "0.255.255.255";
         direccion_red = primer_octeto + ".0.0.0";
         direccion_broadcast = primer_octeto + ".255.255.255";
+
+        let bist_prestadosA = mascara_personalizada.value - bits_predeterminados;
+        numero_subredes = Math.pow(2, bist_prestadosA);
+        
     } else if (primer_octeto >= 128 && primer_octeto <= 191) {
         clase = "Clase B";
-        bits_predeterminados = 16;
+        bits_predeterminados = 16; 
         mascara = "255.255.0.0";
         wildcard = "0.0.255.255";
         direccion_red = primer_octeto + "." + segundo_octeto + ".0.0";
         direccion_broadcast = primer_octeto + "." + segundo_octeto + ".255.255";
+        
+        let bist_prestadosB = mascara_personalizada.value - bits_predeterminados;
+        numero_subredes = Math.pow(2, bist_prestadosB);
+        
     } else if (primer_octeto >= 192 && primer_octeto <= 223) {
         clase = "Clase C";
-        bits_predeterminados = 24;
+        bits_predeterminados = 24; 
         mascara = "255.255.255.0";
         wildcard = "0.0.0.255";
         direccion_red = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + ".0";
         direccion_broadcast = primer_octeto + "." + segundo_octeto + "." + tercer_octeto + ".255";
+        
+        let bist_prestadosC = mascara_personalizada.value - bits_predeterminados;
+        numero_subredes = Math.pow(2, bist_prestadosC);
+        
     } else if (primer_octeto >= 224 && primer_octeto <= 239) {
         clase = "Clase D";
         mascara = "No tiene máscara";
@@ -84,6 +97,7 @@ function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
         direccion_broadcast = "No tiene dirección de broadcast";
         hosts = "No tiene número de hosts";
         numero_subredes = "No tiene número subredes";
+
     } else if (primer_octeto >= 240 && primer_octeto <= 255) {
         clase = "Clase E";
         mascara = "No tiene máscara";
@@ -94,15 +108,7 @@ function caracteristicasIP(primer_octeto, segundo_octeto, tercer_octeto) {
         numero_subredes = "No tiene número subredes";
     }
 
-    // Cálculo correcto de subredes solo si la clase es A, B o C
-    if (clase === "Clase A" || clase === "Clase B" || clase === "Clase C") {
-        if (mascaraValor > bits_predeterminados) {
-            numero_subredes = Math.pow(2, mascaraValor - bits_predeterminados);
-        } else {
-            numero_subredes = 1;
-        }
-        hosts = Math.pow(2, bistHosts) - 2;
-    }
+    hosts = Math.pow(2, bistHosts) - 2;
 
     document.getElementById("clase_red").innerText = clase;
     document.getElementById("mascara_subred").innerText = mascara;
@@ -206,155 +212,6 @@ function mostrarResultado(ip) {
     }
 }
 
-// Función mejorada para mostrar las subredes en el contenedor izquierdo
-function mostrarSubredes(ip, mascaraBits) {
-    const listaSubredes = document.getElementById('lista-subredes');
-    const detalleSubred = document.getElementById('detalle-subred');
-    const infoSubred = document.getElementById('info-subred');
-    const mensajeSeleccion = document.querySelector('.mensaje-seleccion');
-    
-    // Limpiar contenedores
-    listaSubredes.innerHTML = '';
-    infoSubred.style.display = 'none';
-    mensajeSeleccion.style.display = 'block';
-    
-    // Obtener la dirección IP en formato numérico
-    const octetos = ip.split('.').map(Number);
-    const ipNum = (octetos[0] << 24) | (octetos[1] << 16) | (octetos[2] << 8) | octetos[3];
-    
-    // Determinar los bits de red según la clase de IP
-    let bitsRed;
-    if (octetos[0] >= 0 && octetos[0] <= 127) bitsRed = 8;      // Clase A
-    else if (octetos[0] >= 128 && octetos[0] <= 191) bitsRed = 16; // Clase B
-    else if (octetos[0] >= 192 && octetos[0] <= 223) bitsRed = 24; // Clase C
-    else bitsRed = 0; // Clase D o E (no soportan subredes)
-    
-    // Calcular el número de subredes
-    let numSubredes = 0;
-    if (mascaraBits > bitsRed) {
-        numSubredes = Math.pow(2, mascaraBits - bitsRed);
-    } else {
-        numSubredes = 1; // No hay subredes adicionales
-    }
-    
-    // Limitar a 8 subredes como máximo para la visualización
-    const subredesMostrar = Math.min(numSubredes, 8);
-    
-    // Calcular el tamaño de cada subred
-    const tamanoSubred = Math.pow(2, 32 - mascaraBits);
-    
-    // Calcular la dirección de red base
-    const mascara = (0xFFFFFFFF << (32 - mascaraBits)) >>> 0;
-    const redBase = ipNum & mascara;
-    
-    // Generar las subredes
-    for (let i = 0; i < subredesMostrar; i++) {
-        // Calcular dirección de red de esta subred
-        const dirRed = redBase + (i * tamanoSubred);
-        
-        // Calcular dirección de broadcast de esta subred
-        const dirBroadcast = dirRed + tamanoSubred - 1;
-        
-        // Calcular host mínimo y máximo
-        const hostMin = dirRed + 1;
-        const hostMax = dirBroadcast - 1;
-        
-        // Calcular número de hosts
-        const numHosts = Math.max(0, tamanoSubred - 2);
-        
-        // Calcular wildcard para esta máscara
-        const wildcard = ~mascara >>> 0;
-        
-        // Convertir a formato IP
-        const redIP = numToIp(dirRed);
-        const broadcastIP = numToIp(dirBroadcast);
-        const hostMinIP = numToIp(hostMin);
-        const hostMaxIP = numToIp(hostMax);
-        const mascaraIP = numToIp(mascara);
-        const wildcardIP = numToIp(wildcard);
-        
-        // Crear elemento para la subred
-        const subredItem = document.createElement('div');
-        subredItem.className = 'subred-item';
-        subredItem.innerHTML = `
-            <h4>Subred ${i + 1}</h4>
-            <p>Red: ${redIP}/${mascaraBits}</p>
-            <p>Hosts: ${numHosts}</p>
-        `;
-        
-        // Almacenar todos los datos de la subred
-        subredItem.dataset.direccionRed = redIP;
-        subredItem.dataset.mascara = mascaraIP;
-        subredItem.dataset.mascaraBits = mascaraBits;
-        subredItem.dataset.wildcard = wildcardIP;
-        subredItem.dataset.broadcast = broadcastIP;
-        subredItem.dataset.hostMin = hostMinIP;
-        subredItem.dataset.hostMax = hostMaxIP;
-        subredItem.dataset.numHosts = numHosts;
-        
-        // Agregar evento de clic
-        subredItem.addEventListener('click', function() {
-            // Remover clase activa de otros elementos
-            document.querySelectorAll('.subred-item').forEach(item => {
-                item.classList.remove('activa');
-            });
-            
-            // Agregar clase activa al elemento seleccionado
-            this.classList.add('activa');
-            
-            // Mostrar detalles de la subred
-            mostrarDetallesSubred(this.dataset);
-        });
-        
-        listaSubredes.appendChild(subredItem);
-    }
-    
-    // Si hay al menos una subred, seleccionar la primera por defecto
-    if (subredesMostrar > 0) {
-        const primeraSubred = listaSubredes.firstElementChild;
-        if (primeraSubred) {
-            primeraSubred.click();
-        }
-    }
-    
-    // Si hay más subredes de las que se muestran, agregar un mensaje
-    if (numSubredes > 8) {
-        const mensajeExtra = document.createElement('div');
-        mensajeExtra.className = 'mensaje-extra';
-        mensajeExtra.innerHTML = `<p>Mostrando 8 de ${numSubredes} subredes totales</p>`;
-        listaSubredes.appendChild(mensajeExtra);
-    }
-}
-
-// Función para mostrar los detalles de una subred
-function mostrarDetallesSubred(datos) {
-    const infoSubred = document.getElementById('info-subred');
-    const mensajeSeleccion = document.querySelector('.mensaje-seleccion');
-    
-    // Ocultar mensaje y mostrar detalles
-    mensajeSeleccion.style.display = 'none';
-    infoSubred.style.display = 'block';
-    
-    // Actualizar la interfaz con todos los datos de la subred
-    document.getElementById('detalle-red').textContent = `${datos.direccionRed}/${datos.mascaraBits}`;
-    document.getElementById('detalle-mascara').textContent = `${datos.mascara} (/${datos.mascaraBits})`;
-    document.getElementById('detalle-wildcard').textContent = datos.wildcard;
-    document.getElementById('detalle-broadcast').textContent = datos.broadcast;
-    document.getElementById('detalle-host-min').textContent = datos.hostMin;
-    document.getElementById('detalle-host-max').textContent = datos.hostMax;
-    document.getElementById('detalle-num-hosts').textContent = datos.numHosts;
-}
-
-// Función auxiliar para convertir número a IP
-function numToIp(num) {
-    return [
-        (num >>> 24) & 0xFF,
-        (num >>> 16) & 0xFF,
-        (num >>> 8) & 0xFF,
-        num & 0xFF
-    ].join('.');
-}
-
 document.getElementById("formulario").addEventListener('submit', function(event) {
     event.preventDefault();
     const ip = document.getElementById("IP").value;
@@ -439,20 +296,3 @@ document.getElementById("toggle_binario").addEventListener("click", function () 
     this.innerText = mostrarBinario ? "Ver en decimal" : "Ver en binario";
 });
 
-// Add event listener for toggle_subredes button
-document.getElementById("toggle_subredes").addEventListener("click", function() {
-    const contenedorTablas = document.getElementById("contenedor-tablas-subredes");
-    const ip = document.getElementById("ip_completa").textContent;
-    const mascaraPersonalizada = document.getElementById("mascara_personalizada").value;
-    
-    // Mostrar/ocultar el contenedor de subredes
-    if (contenedorTablas.style.display === "none") {
-        contenedorTablas.style.display = "block";
-        // Mostrar las subredes con los datos completos
-        mostrarSubredes(ip, parseInt(mascaraPersonalizada));
-        this.innerText = "Ocultar subredes";
-    } else {
-        contenedorTablas.style.display = "none";
-        this.innerText = "Mostrar subredes";
-    }
-});
