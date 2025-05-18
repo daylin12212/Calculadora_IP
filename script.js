@@ -271,7 +271,6 @@ function mostrarResultado(ip) {
         const broadcast = red | (~mask >>> 0);
 
         const hostMin = red + 1;
-
         const hostMax = broadcast - 1;
 
         function numToIp(num) {
@@ -285,6 +284,9 @@ function mostrarResultado(ip) {
 
         document.getElementById("host_minimo").innerText = numToIp(hostMin);
         document.getElementById("host_maximo").innerText = numToIp(hostMax);
+
+        // Llamar a la función para mostrar subredes
+        mostrarSubredes(ip, mascaraBits);
     } else {
         document.getElementById("host_minimo").innerText = "N/A";
         document.getElementById("host_maximo").innerText = "N/A";
@@ -317,29 +319,187 @@ async function asignarIPPlaceholder() {
 
 asignarIPPlaceholder();
 
-document.getElementById("toggle_binario").addEventListener("click", function () {
-    // Alternar visibilidad de IP
-    let ipBin = document.getElementById("ip_binario");
-    let ipDec = document.getElementById("ip_completa");
-    // Wildcard
-    let wildcardBin = document.getElementById("Wildcard_binario");
-    let wildcardDec = document.getElementById("Wildcard");
-    // Máscara de subred
-    let mascaraBin = document.getElementById("mascara_supred_binario");
-    let mascaraDec = document.getElementById("mascara_subred");
-    // Dirección de red
-    let redBin = document.getElementById("direccion_red_binario");
-    let redDec = document.getElementById("direccion_red");
-    // Broadcast
-    let broadBin = document.getElementById("direccion_broadcast_binario");
-    let broadDec = document.getElementById("direccion_broadcast");
+// Modificar la función mostrarSubredes para no mostrar nada si no hay subredes
+function mostrarSubredes(ip, mascaraBits) {
+    const listaSubredes = document.getElementById('lista-subredes');
+    const infoSubred = document.getElementById('info-subred');
+    const mensajeSeleccion = document.querySelector('.mensaje-seleccion');
+    const contenedorSubredes = document.getElementById('contenedor-tablas-subredes');
 
-    // th leyenda
-    let thRed = document.getElementById("th_red");
-    let thSubred = document.getElementById("th_subred");
-    let thHost = document.getElementById("th_host");
+    // Limpiar contenedores
+    listaSubredes.innerHTML = '';
+    infoSubred.style.display = 'none';
+    mensajeSeleccion.style.display = 'block';
 
-    // Si no están generados, los generamos aquí
+    // Obtener el número de subredes
+    const numeroSubredes = document.getElementById("numero_subredes").innerText;
+
+    // Si no hay subredes, ocultar el contenedor y salir
+    if (numeroSubredes === "No tiene número de subredes" || numeroSubredes === "0") {
+        contenedorSubredes.style.display = 'none';
+        return;
+    }
+
+    // Obtener la dirección IP en formato numérico
+    const octetos = ip.split('.').map(Number);
+    const ipNum = (octetos[0] << 24) | (octetos[1] << 16) | (octetos[2] << 8) | octetos[3];
+
+    // Determinar los bits de red según la clase de IP
+    let bitsRed;
+    if (octetos[0] >= 0 && octetos[0] <= 127) bitsRed = 8;      // Clase A
+    else if (octetos[0] >= 128 && octetos[0] <= 191) bitsRed = 16; // Clase B
+    else if (octetos[0] >= 192 && octetos[0] <= 223) bitsRed = 24; // Clase C
+    else bitsRed = 0; // Clase D o E (no soportan subredes)
+
+    // Calcular el número de subredes
+    let numSubredes = 0;
+    if (mascaraBits > bitsRed) {
+        numSubredes = Math.pow(2, mascaraBits - bitsRed);
+    } else {
+        numSubredes = 0; // No hay subredes
+    }
+
+    // Si no hay subredes, ocultar el contenedor y salir
+    if (numSubredes === 0) {
+        contenedorSubredes.style.display = 'none';
+        return;
+    }
+
+    // Limitar a 8 subredes como máximo para la visualización
+    const subredesMostrar = Math.min(numSubredes, 8);
+
+    // Calcular el tamaño de cada subred
+    const tamanoSubred = Math.pow(2, 32 - mascaraBits);
+
+    // Calcular la dirección de red base
+    const mascara = (0xFFFFFFFF << (32 - mascaraBits)) >>> 0;
+    const redBase = ipNum & mascara;
+
+    // Generar las subredes
+    for (let i = 0; i < subredesMostrar; i++) {
+        // Calcular dirección de red de esta subred
+        const dirRed = redBase + (i * tamanoSubred);
+
+        // Calcular dirección de broadcast de esta subred
+        const dirBroadcast = dirRed + tamanoSubred - 1;
+
+        // Calcular host mínimo y máximo
+        const hostMin = dirRed + 1;
+        const hostMax = dirBroadcast - 1;
+
+        // Calcular número de hosts
+        const numHosts = Math.max(0, tamanoSubred - 2);
+
+        // Calcular wildcard para esta máscara
+        const wildcard = ~mascara >>> 0;
+
+        // Convertir a formato IP
+        const redIP = numToIp(dirRed);
+        const broadcastIP = numToIp(dirBroadcast);
+        const hostMinIP = numToIp(hostMin);
+        const hostMaxIP = numToIp(hostMax);
+        const mascaraIP = numToIp(mascara);
+        const wildcardIP = numToIp(wildcard);
+
+        // Crear elemento para la subred
+        const subredItem = document.createElement('div');
+        subredItem.className = 'subred-item';
+        subredItem.innerHTML = `
+            <h4>Subred ${i + 1}</h4>
+            <p>Red: ${redIP}/${mascaraBits}</p>
+            <p>Hosts: ${numHosts}</p>
+        `;
+
+        // Almacenar todos los datos de la subred
+        subredItem.dataset.direccionRed = redIP;
+        subredItem.dataset.mascara = mascaraIP;
+        subredItem.dataset.mascaraBits = mascaraBits;
+        subredItem.dataset.wildcard = wildcardIP;
+        subredItem.dataset.broadcast = broadcastIP;
+        subredItem.dataset.hostMin = hostMinIP;
+        subredItem.dataset.hostMax = hostMaxIP;
+        subredItem.dataset.numHosts = numHosts;
+
+        // Agregar evento de clic
+        subredItem.addEventListener('click', function() {
+            // Remover clase activa de otros elementos
+            document.querySelectorAll('.subred-item').forEach(item => {
+                item.classList.remove('activa');
+            });
+
+            // Agregar clase activa al elemento seleccionado
+            this.classList.add('activa');
+
+            // Mostrar detalles de la subred
+            mostrarDetallesSubred(this.dataset);
+        });
+
+        listaSubredes.appendChild(subredItem);
+    }
+
+    // Si hay al menos una subred, seleccionar la primera por defecto
+    if (subredesMostrar > 0) {
+        const primeraSubred = listaSubredes.firstElementChild;
+        if (primeraSubred) {
+            primeraSubred.click();
+        }
+    }
+
+    // Si hay más subredes de las que se muestran, agregar un mensaje
+    if (numSubredes > 8) {
+        const mensajeExtra = document.createElement('div');
+        mensajeExtra.className = 'mensaje-extra';
+        mensajeExtra.innerHTML = `<p>Mostrando 8 de ${numSubredes} subredes totales</p>`;
+        listaSubredes.appendChild(mensajeExtra);
+    }
+
+    // Mostrar el contenedor de subredes
+    contenedorSubredes.style.display = 'block';
+}
+
+// Función para mostrar los detalles de una subred
+function mostrarDetallesSubred(datos) {
+    const infoSubred = document.getElementById('info-subred');
+    const mensajeSeleccion = document.querySelector('.mensaje-seleccion');
+
+    // Ocultar mensaje y mostrar detalles
+    mensajeSeleccion.style.display = 'none';
+    infoSubred.style.display = 'block';
+
+    // Actualizar la interfaz con todos los datos de la subred
+    document.getElementById('detalle-red').textContent = `${datos.direccionRed}/${datos.mascaraBits}`;
+    document.getElementById('detalle-mascara').textContent = `${datos.mascara} (/${datos.mascaraBits})`;
+    document.getElementById('detalle-wildcard').textContent = datos.wildcard;
+    document.getElementById('detalle-broadcast').textContent = datos.broadcast;
+    document.getElementById('detalle-host-min').textContent = datos.hostMin;
+    document.getElementById('detalle-host-max').textContent = datos.hostMax;
+    document.getElementById('detalle-num-hosts').textContent = datos.numHosts;
+}
+
+// Función auxiliar para convertir número a IP
+function numToIp(num) {
+    return [
+        (num >>> 24) & 0xFF,
+        (num >>> 16) & 0xFF,
+        (num >>> 8) & 0xFF,
+        num & 0xFF
+    ].join('.');
+}
+
+// Función para alternar entre binario y decimal
+function alternarBinarioDecimal() {
+    const ipBin = document.getElementById("ip_binario");
+    const ipDec = document.getElementById("ip_completa");
+    const wildcardBin = document.getElementById("Wildcard_binario");
+    const wildcardDec = document.getElementById("Wildcard");
+    const mascaraBin = document.getElementById("mascara_supred_binario");
+    const mascaraDec = document.getElementById("mascara_subred");
+    const redBin = document.getElementById("direccion_red_binario");
+    const redDec = document.getElementById("direccion_red");
+    const broadBin = document.getElementById("direccion_broadcast_binario");
+    const broadDec = document.getElementById("direccion_broadcast");
+
+    // Generar valores en binario si no están generados
     function toBin(ip) {
         return ip.split('.').map(o => ("00000000" + parseInt(o).toString(2)).slice(-8)).join('.');
     }
@@ -350,31 +510,37 @@ document.getElementById("toggle_binario").addEventListener("click", function () 
     if (!redBin.innerHTML) redBin.innerHTML = toBin(redDec.innerText);
     if (!broadBin.innerHTML) broadBin.innerHTML = toBin(broadDec.innerText);
 
-    // Alternar
-    let mostrarBinario = ipBin.style.display === "none";
-    ipBin.style.display = mostrarBinario ? "" : "none";
-    ipDec.style.display = mostrarBinario ? "none" : "";
-    wildcardBin.style.display = mostrarBinario ? "" : "none";
-    wildcardDec.style.display = mostrarBinario ? "none" : "";
-    mascaraBin.style.display = mostrarBinario ? "" : "none";
-    mascaraDec.style.display = mostrarBinario ? "none" : "";
-    redBin.style.display = mostrarBinario ? "" : "none";
-    redDec.style.display = mostrarBinario ? "none" : "";
-    broadBin.style.display = mostrarBinario ? "" : "none";
-    broadDec.style.display = mostrarBinario ? "none" : "";
+    // Alternar entre binario y decimal
+    const mostrarBinario = ipBin.style.display === "none";
+    ipBin.style.display = mostrarBinario ? "block" : "none";
+    ipDec.style.display = mostrarBinario ? "none" : "block";
+    wildcardBin.style.display = mostrarBinario ? "block" : "none";
+    wildcardDec.style.display = mostrarBinario ? "none" : "block";
+    mascaraBin.style.display = mostrarBinario ? "block" : "none";
+    mascaraDec.style.display = mostrarBinario ? "none" : "block";
+    redBin.style.display = mostrarBinario ? "block" : "none";
+    redDec.style.display = mostrarBinario ? "none" : "block";
+    broadBin.style.display = mostrarBinario ? "block" : "none";
+    broadDec.style.display = mostrarBinario ? "none" : "block";
 
-    // Cambia colores de leyenda
-    if (thRed && thSubred && thHost) {
-        if (mostrarBinario) {
-            thRed.classList.add("th-red");
-            thSubred.classList.add("th-subred");
-            thHost.classList.add("th-host");
-        } else {
-            thRed.classList.remove("th-red");
-            thSubred.classList.remove("th-subred");
-            thHost.classList.remove("th-host");
-        }
-    }
+    // Cambiar el texto del botón
+    document.getElementById("toggle_binario").innerText = mostrarBinario ? "Ver en decimal" : "Ver en binario";
+}
 
-    this.innerText = mostrarBinario ? "Ver en decimal" : "Ver en binario";
+// Asignar el evento al botón
+if (document.getElementById("toggle_binario")) {
+    document.getElementById("toggle_binario").addEventListener("click", alternarBinarioDecimal);
+}
+
+// Modificar el evento del botón para mostrar/ocultar subredes
+const toggleSubredesBtn = document.getElementById("toggle_subredes");
+const contenedorSubredes = document.getElementById("contenedor-tablas-subredes");
+
+toggleSubredesBtn.addEventListener("click", function () {
+    const isHidden = contenedorSubredes.style.display === "none" || contenedorSubredes.style.display === "";
+    contenedorSubredes.style.display = isHidden ? "block" : "none";
+    toggleSubredesBtn.innerText = isHidden ? "Ocultar subredes" : "Mostrar subredes";
 });
+
+// Asegurarse de que el contenedor de subredes esté oculto inicialmente
+contenedorSubredes.style.display = "none";
