@@ -356,13 +356,7 @@ function mostrarSubredes(ip, mascaraBits) {
     if (mascaraBits > bitsRed) {
         numSubredes = Math.pow(2, mascaraBits - bitsRed);
     } else {
-        numSubredes = 0; // No hay subredes
-    }
-
-    // Si no hay subredes, ocultar el contenedor y salir
-    if (numSubredes === 0) {
-        contenedorSubredes.style.display = 'none';
-        return;
+        numSubredes = 1; // Si no hay subredes, mostrar la red principal como subred única
     }
 
     // Limitar a 8 subredes como máximo para la visualización
@@ -453,8 +447,8 @@ function mostrarSubredes(ip, mascaraBits) {
         listaSubredes.appendChild(mensajeExtra);
     }
 
-    // Mostrar el contenedor de subredes
-    contenedorSubredes.style.display = 'block';
+    // Actualizar el estado del botón
+    document.getElementById('toggle_subredes').textContent = 'Mostrar subredes';
 }
 
 // Función para mostrar los detalles de una subred
@@ -532,15 +526,13 @@ if (document.getElementById("toggle_binario")) {
     document.getElementById("toggle_binario").addEventListener("click", alternarBinarioDecimal);
 }
 
-// Modificar el evento del botón para mostrar/ocultar subredes
-const toggleSubredesBtn = document.getElementById("toggle_subredes");
+// Asegurarse de que el contenedor de subredes esté oculto inicialmente
 const contenedorSubredes = document.getElementById("contenedor-tablas-subredes");
+contenedorSubredes.style.display = "none";
 
-toggleSubredesBtn.addEventListener("click", function () {
+// Agregar evento al botón toggle_subredes
+document.getElementById('toggle_subredes').addEventListener('click', function() {
     const isHidden = contenedorSubredes.style.display === "none" || contenedorSubredes.style.display === "";
     contenedorSubredes.style.display = isHidden ? "block" : "none";
-    toggleSubredesBtn.innerText = isHidden ? "Ocultar subredes" : "Mostrar subredes";
+    this.textContent = isHidden ? "Ocultar subredes" : "Mostrar subredes";
 });
-
-// Asegurarse de que el contenedor de subredes esté oculto inicialmente
-contenedorSubredes.style.display = "none";
