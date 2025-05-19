@@ -102,7 +102,7 @@ Proyecto "CalcuRedes" en JavaScript (4 sesiones) para practias 1ºDAW
 
 **Dificultades encontradas**
 - [Dificultad 1: no conseguimos hacer una validacion de la seccion 4, de poder pulsar a un boton que me mostrara la ip local del ordenador]
-- [Dificultad 2: no conseguimos hacer bien lo de los colores para distingir bien lo de la red, la subred y el host, lo de resaltar el nombre de los tutilos tubimos que ponerlo por defecto no al pulsar el boton de ver en binario]
+- [Dificultad 2: no conseguimos hacer bien lo de los colores para distingir bien lo de la red, la subred y el host, lo de resaltar el nombre de los titulos tuvimos que ponerlo por defecto no al pulsar el boton de ver en binario]
 
 **Soluciones aplicadas:**
 - [Solución 1: Se investigaron diferentes fuentes hasta conseguir realizar las conversiones y los calculos adecuadamente]
