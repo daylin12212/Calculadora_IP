@@ -16,6 +16,7 @@ Proyecto "CalcuRedes" en JavaScript (4 sesiones) para practias 1ºDAW
 **Fuentes consultadas**
 - [https://chatgpt.com/]
 - [https://copilot.microsoft.com/chats/TD3GRcBEJtP67GRkjVevj]
+- [https://blog.walthercuro.com/construir-una-calculadora-de-sub-redes-con-html-java-script-y-css/]
  
  **Decisiones tecnicas**
  - [El estilo que le dimos a la calculadora y en algunos casos la forma en que resolveriamos problemas]
@@ -40,6 +41,7 @@ Proyecto "CalcuRedes" en JavaScript (4 sesiones) para practias 1ºDAW
 **Fuentes consultadas**
 - [https://chatgpt.com/]
 - [https://copilot.microsoft.com/chats/TD3GRcBEJtP67GRkjVevj]
+- [https://blog.walthercuro.com/construir-una-calculadora-de-sub-redes-con-html-java-script-y-css/]
  
  **Decisiones tecnicas**
  - [Mantenemos un formato parecido a la sesión 1 e intentamos implementar el código reutilizando el mismo lo máximo posible]
@@ -63,6 +65,8 @@ Proyecto "CalcuRedes" en JavaScript (4 sesiones) para practias 1ºDAW
 **Fuentes consultadas**
 - [https://chatgpt.com/]
 - [https://copilot.microsoft.com/chats/TD3GRcBEJtP67GRkjVevj]
+- [https://blog.walthercuro.com/construir-una-calculadora-de-sub-redes-con-html-java-script-y-css/]
+- [https://www.iptp.net/es_ES/iptp-tools/ip-calculator/]
  
  **Decisiones tecnicas**
  - [Mantenemos un formato parecido a la sesión 1 e intentamos implementar el código reutilizando el mismo lo máximo posible]
@@ -86,6 +90,9 @@ Proyecto "CalcuRedes" en JavaScript (4 sesiones) para practias 1ºDAW
 **Fuentes consultadas**
 - [https://chatgpt.com/]
 - [https://copilot.microsoft.com/chats/TD3GRcBEJtP67GRkjVevj]
+- [https://blog.walthercuro.com/construir-una-calculadora-de-sub-redes-con-html-java-script-y-css/]
+- [https://www.iptp.net/es_ES/iptp-tools/ip-calculator/]
+- [https://www.google.com/search?num=12&sca_esv=18d2e8def591dfb0&rlz=1C1UEAD_esES1085ES1085&sxsrf=AHTn8zqke8KTs0j4BAvSzy14MenhP5VpvA:1747664697199&q=como+calcular+las+subredes+de+una+direccion+ip&udm=2&fbs=ABzOT_BnMAgCWdhr5zilP5f1cnRvhVqkzbxc5Zr8mhp6edC0Xd1yYyq4nceAhGAA8JHiBSic7OPII_s54vVoANkNxn1cmVLYtwWEu24XI0IwqOJ3Mo3i6AfbUeuVWzr6jjLt-IRho3sGMW8h6O5UJRjzUDQHIMh7jdbNzA0EvGzdWqz0a265YywaxW9KKO1Csi_Ipx71_fAz&sa=X&ved=2ahUKEwji9Nmr3q-NAxUGRKQEHRvWEmcQtKgLegQIDRAB&cshid=1747664721419320&biw=2048&bih=926&dpr=0.94#vhid=dScRg-4utTk-sM&vssid=mosaic]
  
  **Decisiones tecnicas**
  - [Mantenemos un formato parecido a la sesión 1 e intentamos implementar el código reutilizando el mismo lo máximo posible]
@@ -98,11 +105,11 @@ Proyecto "CalcuRedes" en JavaScript (4 sesiones) para practias 1ºDAW
    ## sesion 5
 
   **Resumen:**
-[Hemos implementado algunas funcionalidades faltantes y pulir un poco el codigo por que igual algunas cosas no funcionabas adecuadamente como el generador de datos de las subredes]
+[Hemos implementado algunas funcionalidades faltantes y hemos pulido un poco el código por que algunas cosas no funcionaban adecuadamente, como el generador de datos de las subredes]
 
 **Dificultades encontradas**
-- [Dificultad 1: no conseguimos hacer una validacion de la seccion 4, de poder pulsar a un boton que me mostrara la ip local del ordenador]
-- [Dificultad 2: no conseguimos hacer bien lo de los colores para distingir bien lo de la red, la subred y el host, lo de resaltar el nombre de los tutilos tubimos que ponerlo por defecto no al pulsar el boton de ver en binario]
+- [Dificultad 1: no conseguimos hacer una validación de la sección 4, de poder pulsar un boton que me mostrara la ip local del ordenador]
+- [Dificultad 2: no conseguimos hacer bien lo de los colores para distingir los elementos de la red, la subred y el host, lo de resaltar el nombre de los títulos tuvimos que ponerlo por defecto, no al pulsar el boton de ver en binario]
 
 **Soluciones aplicadas:**
 - [Solución 1: Se investigaron diferentes fuentes hasta conseguir realizar las conversiones y los calculos adecuadamente]
@@ -110,11 +117,13 @@ Proyecto "CalcuRedes" en JavaScript (4 sesiones) para practias 1ºDAW
 **Fuentes consultadas**
 - [https://chatgpt.com/]
 - [https://copilot.microsoft.com/chats/TD3GRcBEJtP67GRkjVevj]
+- [https://blog.walthercuro.com/construir-una-calculadora-de-sub-redes-con-html-java-script-y-css/]
+- [https://www.iptp.net/es_ES/iptp-tools/ip-calculator/]
+- [https://www.google.com/search?num=12&sca_esv=18d2e8def591dfb0&rlz=1C1UEAD_esES1085ES1085&sxsrf=AHTn8zqke8KTs0j4BAvSzy14MenhP5VpvA:1747664697199&q=como+calcular+las+subredes+de+una+direccion+ip&udm=2&fbs=ABzOT_BnMAgCWdhr5zilP5f1cnRvhVqkzbxc5Zr8mhp6edC0Xd1yYyq4nceAhGAA8JHiBSic7OPII_s54vVoANkNxn1cmVLYtwWEu24XI0IwqOJ3Mo3i6AfbUeuVWzr6jjLt-IRho3sGMW8h6O5UJRjzUDQHIMh7jdbNzA0EvGzdWqz0a265YywaxW9KKO1Csi_Ipx71_fAz&sa=X&ved=2ahUKEwji9Nmr3q-NAxUGRKQEHRvWEmcQtKgLegQIDRAB&cshid=1747664721419320&biw=2048&bih=926&dpr=0.94#vhid=dScRg-4utTk-sM&vssid=mosaic]
  
  **Decisiones tecnicas**
  - [Mantenemos un formato parecido a la sesión 1 ]
- - [Implementación de un botón para mostrar o ocultar la informacion de las subredes]
- - [decidimos no poner el boton de ver la ip local ya que no conseguimos mostrararla]
-  -[]
+ - [Implementación de un botón para mostrar u ocultar la información de las subredes]
+ - [Decidimos no poner el botón de ver la IP local ya que la mostramos en el campo de la IP]
  *Ideas de mejora futura:*
  - [Mejorar la legibilidad y la modulación del código]
